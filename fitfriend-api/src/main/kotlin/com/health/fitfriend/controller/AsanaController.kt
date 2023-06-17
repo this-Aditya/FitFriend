@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/asanas")
+@RequestMapping("/yoga/asanas")
 class AsanaController(private val service: AsanaService) {
 
     @ExceptionHandler(NoSuchElementException::class)

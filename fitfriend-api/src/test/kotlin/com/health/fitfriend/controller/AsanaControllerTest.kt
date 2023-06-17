@@ -20,7 +20,7 @@ class AsanaControllerTest {
 
     @Autowired
     lateinit var mockMvc: MockMvc
-    private val baseUrl = "/asanas"
+    private val baseUrl = "/yoga/asanas"
 
     @Test
     fun `should return all asanas`() {

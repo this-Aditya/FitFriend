@@ -6,7 +6,7 @@ data class Asana(
     val introduction: String,
     val benefits: String,
     val directions: String,
+    val precautions: String,
     val imageUrl: String,
     val videoUrl: String,
-    val precautions: String,
 )
