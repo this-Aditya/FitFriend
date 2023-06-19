@@ -12,7 +12,7 @@ class AsanaDataSourceImpl : AsanaDataSource {
     override fun retrieveAsanaById(id: Int): Asana = asanas[id - 1]
 
     override fun retrieveAsanaByName(name: String): Asana =
-        asanas.firstOrNull { it.name == name } ?: throw NoSuchElementException("Cound not find asana with name $name")
+        asanas.firstOrNull { it.name.equals(name, ignoreCase = true) } ?: throw NoSuchElementException("Cound not find asana with name $name")
 
 
     val asana1 = Asana(
