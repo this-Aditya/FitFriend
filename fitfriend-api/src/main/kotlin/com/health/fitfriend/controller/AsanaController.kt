@@ -18,6 +18,10 @@ class AsanaController(private val service: AsanaService) {
     fun handleNameNotFound(e: NoSuchElementException): ResponseEntity<String> =
         ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 
+    @ExceptionHandler(IndexOutOfBoundsException::class)
+    fun handleIdNotFound(e: IndexOutOfBoundsException): ResponseEntity<String> =
+        ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+
     @GetMapping
     fun getAsanas(): Collection<Asana> = service.getAsanas()
 

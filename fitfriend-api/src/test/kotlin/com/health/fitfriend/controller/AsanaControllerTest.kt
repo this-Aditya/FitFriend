@@ -37,7 +37,7 @@ class AsanaControllerTest {
     @Nested
     @DisplayName("getAsana()")
     @TestInstance(Lifecycle.PER_CLASS)
-    inner class GetAsanasById {
+    inner class GetAsana {
         @Test
         fun `should return a single asana by id`() {
             //given
@@ -76,7 +76,13 @@ class AsanaControllerTest {
               .andExpect { status { isNotFound() } }
               }
 
-
+        @Test
+        fun `should return NOT_FOUND if the asana id does not exist`() {
+           val id = 4678498
+            mockMvc.get("$baseUrl/id/$id")
+                .andDo { print() }
+                .andExpect { status { isNotFound() } }
+           }
            }
     }
 

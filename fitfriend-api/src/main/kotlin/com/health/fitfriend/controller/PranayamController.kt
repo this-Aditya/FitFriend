@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/yoga/pranayams")
 class PranayamController(private val pranayamService: PranayamService) {
 
-    @ExceptionHandler
+    @ExceptionHandler(NoSuchElementException::class)
     fun handlePranayamNameNotFound(e: NoSuchElementException): ResponseEntity<String> =
         ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 
-    @ExceptionHandler
+    @ExceptionHandler(IndexOutOfBoundsException::class)
     fun handlePranayamIdNotFound(e: IndexOutOfBoundsException): ResponseEntity<String> =
         ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 
