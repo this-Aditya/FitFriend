@@ -1,6 +1,7 @@
 package com.health.fitfriend.controller
 
-import jdk.jfr.ContentType
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.health.fitfriend.model.Asana
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -13,13 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AsanaControllerTest {
+class AsanaControllerTest @Autowired constructor(val mockMvc: MockMvc, val objectMapper: ObjectMapper) {
 
-    @Autowired
-    lateinit var mockMvc: MockMvc
     private val baseUrl = "/yoga/asanas"
 
     @Test
@@ -35,7 +35,7 @@ class AsanaControllerTest {
     }
 
     @Nested
-    @DisplayName("getAsana()")
+    @DisplayName("GET yoga/asanas/{identifier}")
     @TestInstance(Lifecycle.PER_CLASS)
     inner class GetAsana {
         @Test
@@ -65,26 +65,65 @@ class AsanaControllerTest {
                     jsonPath("$.name") { value(name) }
                 }
         }
-        
+
         @Test
         fun `should return NOT_FOUND if the asana name does not exist `() {
             //given
             val name = "fourth"
-           //when //then
-          mockMvc.get("$baseUrl/name/$name")
-              .andDo { print() }
-              .andExpect { status { isNotFound() } }
-              }
+            //when //then
+            mockMvc.get("$baseUrl/name/$name")
+                .andDo { print() }
+                .andExpect { status { isNotFound() } }
+        }
 
         @Test
         fun `should return NOT_FOUND if the asana id does not exist`() {
-           val id = 4678498
+            val id = 4678498
             mockMvc.get("$baseUrl/id/$id")
                 .andDo { print() }
                 .andExpect { status { isNotFound() } }
-           }
-           }
+        }
     }
+
+    @Nested
+    @DisplayName("POST yoga/asanas}")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class PostNewAsana {
+        @Test
+        fun `should add a new asana`() {
+            //given
+            val asana = Asana(1, "first", "first", "first", "first", "first", "first", "first")
+
+            //when
+            val postedAsana = mockMvc.post(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(asana)
+            }
+
+            //then
+            postedAsana.andDo { print() }
+                .andExpect {
+                    status { isCreated() }
+                    content { contentType(MediaType.APPLICATION_JSON) }
+                    jsonPath("$.id") { value(asana.id) }
+                }
+        }
+
+        @Test
+        fun `should show BAD REQUEST when asana with same id is posted`() {
+            //given
+            val invalidAsana = Asana(1, "first", "first", "first", "first", "first", "first", "first")
+
+            //when/then
+            val performPost = mockMvc.post(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(invalidAsana) }
+            performPost.andDo { print() }
+                .andExpect { status { isBadRequest() } }
+        }
+    }
+
+}
 
 
 

@@ -9,5 +9,6 @@ interface AsanaDataSource {
     fun retrieveAsanaById(id: Int): Asana
 
     fun retrieveAsanaByName(name: String): Asana
+    fun createAsana(asana: Asana): Asana
 
 }

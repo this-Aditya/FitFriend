@@ -19,6 +19,11 @@ class AsanaDataSourceImpl : AsanaDataSource {
     override fun retrieveAsanaByName(name: String): Asana =
         asanas.firstOrNull { it.name.equals(name, ignoreCase = true) } ?: throw NoSuchElementException("Cound not find asana with name $name")
 
+    override fun createAsana(asana: Asana): Asana {
+        if (asanas.any { it.id == asana.id }) throw IllegalArgumentException("Asana with same id already exists.")
+        asanas.add(asana)
+        return asana
+    }
 
     val asana1 = Asana(
         1, "Svargasana",
