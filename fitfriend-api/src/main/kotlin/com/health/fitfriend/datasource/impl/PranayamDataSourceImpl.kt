@@ -9,7 +9,12 @@ class PranayamDataSourceImpl : PranayamDataSource {
 
     override fun retrivePranayams(): Collection<Pranayam> = pranayams
 
-    override fun retrivePranayamById(id: Int): Pranayam = pranayams[id-1]
+    override fun retrivePranayamById(id: Int): Pranayam =
+        try {
+            pranayams[id-1]
+        } catch (e: IndexOutOfBoundsException) {
+            throw IndexOutOfBoundsException("No Pranayam available for id $id")
+        }
 
     override fun retrivePranayamByName(name: String): Pranayam =
         pranayams.firstOrNull { name.equals(it.name, ignoreCase = true) } ?: throw NoSuchElementException("Couldn't find pranayam named $name")
