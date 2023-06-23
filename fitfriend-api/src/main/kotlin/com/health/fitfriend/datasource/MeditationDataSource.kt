@@ -7,4 +7,5 @@ interface MeditationDataSource {
     fun retriveMeditations(): Collection<Meditation>
     fun retriveMeditationByName(name: String): Meditation
     fun retriveMeditationById(id: Int): Meditation
+    fun addMeditation(meditation: Meditation): Meditation
 }

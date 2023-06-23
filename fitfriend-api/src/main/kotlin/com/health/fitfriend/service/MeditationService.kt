@@ -10,4 +10,5 @@ class MeditationService(private val dataSource: MeditationDataSource) {
     fun getMeditations() = dataSource.retriveMeditations()
     fun getMeditationByName(name: String): Meditation = dataSource.retriveMeditationByName(name)
     fun getMeditationById(id: Int): Meditation = dataSource.retriveMeditationById(id)
+    fun addMeditation(meditation: Meditation)  = dataSource.addMeditation(meditation)
 }
