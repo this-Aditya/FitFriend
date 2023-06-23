@@ -25,6 +25,14 @@ class AsanaDataSourceImpl : AsanaDataSource {
         return asana
     }
 
+    override fun updateAsana(asana: Asana): Asana {
+        val currentAsana = asanas.firstOrNull{ it.id == asana.id } ?:
+        throw NoSuchElementException("No asana exists with id ${asana.id}")
+        asanas.remove(currentAsana)
+        asanas.add(asana)
+        return asana
+    }
+
     val asana1 = Asana(
         1, "Svargasana",
         "Sarvangasana is a posture where the whole body is balanced on the shoulder and is therefore, also known as a Shoulder stand. \n" +
@@ -35,7 +43,7 @@ class AsanaDataSourceImpl : AsanaDataSource {
                 "Restores Energy: Svaragasana rejuvenates and re-energizes the body. By allowing the muscles to relax completely, the pose helps to restore energy levels, improve focus, and enhance mental clarity.\n" +
                 "Deepens Awareness: This asana promotes heightened awareness and a deeper connection between the body and mind. By practicing Svaragasana, you can become more mindful and develop a greater understanding of your own thoughts, sensations, and emotions.\n" +
                 "Improves Sleep: Regular practice of Svaragasana can help improve the quality of sleep. By entering a state of deep relaxation, the body and mind become more prepared for rest, leading to better sleep patterns and a sense of well-restedness.\n" +
-                "Lowers Blood Pressure: Svaragasana has been found to have a positive impact on blood pressure. When practiced regularly, it can help reduce hypertension and promote a healthier cardiovascular system.\n" +
+                "Lowers Blood   Pressure: Svaragasana has been found to have a positive impact on blood pressure. When practiced regularly, it can help reduce hypertension and promote a healthier cardiovascular system.\n" +
                 "Enhances Digestion: By inducing a state of deep relaxation, Svaragasana can stimulate the parasympathetic nervous system, which is responsible for rest and digestion. This can improve digestive functions, reduce bloating, and enhance overall gut health.\n" +
                 "Balances Hormones: This asana helps to regulate the endocrine system and balance hormone levels in the body. Regular practice can be particularly beneficial for individuals dealing with hormonal imbalances, such as those related to menopause or stress.\n" +
                 "Supports Healing and Recovery: Svaragasana allows the body to rest and heal, making it a beneficial pose for individuals recovering from illness, injury, or surgery. It promotes overall healing, both physically and mentally.\n" +
