@@ -2,6 +2,7 @@ package com.health.fitfriend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.health.fitfriend.model.Asana
+import jdk.jfr.ContentType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 
 @SpringBootTest
@@ -92,7 +94,7 @@ class AsanaControllerTest @Autowired constructor(val mockMvc: MockMvc, val objec
         @Test
         fun `should add a new asana`() {
             //given
-            val asana = Asana(1, "first", "first", "first", "first", "first", "first", "first")
+            val asana = Asana(26, "first", "first", "first", "first", "first", "first", "first")
 
             //when
             val postedAsana = mockMvc.post(baseUrl) {
@@ -104,9 +106,13 @@ class AsanaControllerTest @Autowired constructor(val mockMvc: MockMvc, val objec
             postedAsana.andDo { print() }
                 .andExpect {
                     status { isCreated() }
-                    content { contentType(MediaType.APPLICATION_JSON) }
-                    jsonPath("$.id") { value(asana.id) }
+                    content {
+                        contentType(MediaType.APPLICATION_JSON)
+                        json(objectMapper.writeValueAsString(asana))
+                    }
+
                 }
+
         }
 
         @Test
@@ -117,12 +123,36 @@ class AsanaControllerTest @Autowired constructor(val mockMvc: MockMvc, val objec
             //when/then
             val performPost = mockMvc.post(baseUrl) {
                 contentType = MediaType.APPLICATION_JSON
-                content = objectMapper.writeValueAsString(invalidAsana) }
+                content = objectMapper.writeValueAsString(invalidAsana)
+            }
             performPost.andDo { print() }
                 .andExpect { status { isBadRequest() } }
         }
     }
 
+    @Nested
+    @DisplayName("PATCH /yoga/asanas")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class UpdateCurrentAsana {
+
+        @Test
+        fun `should update the existing asana`() {
+            val updatedAsana = Asana(1, "first", "first", "first", "first", "first", "first", "first")
+            val performedUpdate = mockMvc.patch(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(updatedAsana)
+            }
+
+            performedUpdate.andDo { print() }
+                .andExpect {
+                    status { isOk() }
+                    content {
+                        contentType(MediaType.APPLICATION_JSON)
+                        json(objectMapper.writeValueAsString(updatedAsana))
+                    }
+                }
+        }
+    }
 }
 
 
