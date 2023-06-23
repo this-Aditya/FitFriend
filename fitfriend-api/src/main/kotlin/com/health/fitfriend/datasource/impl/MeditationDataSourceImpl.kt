@@ -15,5 +15,11 @@ class MeditationDataSourceImpl : MeditationDataSource {
     override fun retriveMeditations(): Collection<Meditation> {
         return meditations
     }
+    override fun retriveMeditationByName(name: String): Meditation =
+        meditations.firstOrNull { it.name.equals(name, ignoreCase = true) } ?:
+        throw NoSuchElementException("Couldn't find any meditation named $name")
 
+    override fun retriveMeditationById(id: Int): Meditation =
+        meditations.firstOrNull{ it.id == id } ?:
+        throw NoSuchElementException("No meditation found for id $id")
 }
