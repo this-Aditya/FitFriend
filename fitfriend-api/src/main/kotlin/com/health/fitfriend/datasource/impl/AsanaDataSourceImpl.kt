@@ -30,6 +30,12 @@ class AsanaDataSourceImpl : AsanaDataSource {
         return asana
     }
 
+    override fun deleteAsana(id: Int) {
+        val asanaToDelete = asanas.firstOrNull{ it.id == id }
+            ?: throw NoSuchElementException("No Such asana exists with id $id")
+        asanas.remove(asanaToDelete)
+    }
+
     val asana1 = Asana(
         1, "Svargasana",
         "Sarvangasana is a posture where the whole body is balanced on the shoulder and is therefore, also known as a Shoulder stand. \n" +

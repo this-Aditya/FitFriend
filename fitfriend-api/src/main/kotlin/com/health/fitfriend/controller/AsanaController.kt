@@ -4,6 +4,7 @@ import com.health.fitfriend.model.Asana
 import com.health.fitfriend.service.AsanaService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -42,9 +43,12 @@ class AsanaController(private val service: AsanaService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addAsana(@RequestBody asana: Asana) = service.addAsana(asana)
+    fun addAsana(@RequestBody asana: Asana): Asana = service.addAsana(asana)
 
     @PatchMapping
-    fun updateAsana(@RequestBody asana: Asana) = service.updateAsnana(asana)
+    fun updateAsana(@RequestBody asana: Asana): Asana = service.updateAsnana(asana)
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteAsana(@PathVariable id: Int): Unit = service.deleteAsana(id)
 }

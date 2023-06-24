@@ -12,5 +12,6 @@ class AsanaService(private val asanaDataSource: AsanaDataSource) {
     fun getAsanaByName(name: String): Asana = asanaDataSource.retrieveAsanaByName(name)
     fun addAsana(asana: Asana): Asana = asanaDataSource.createAsana(asana)
     fun updateAsnana(asana: Asana): Asana = asanaDataSource.updateAsana(asana)
+    fun deleteAsana(id: Int): Unit = asanaDataSource.deleteAsana(id)
 
 }

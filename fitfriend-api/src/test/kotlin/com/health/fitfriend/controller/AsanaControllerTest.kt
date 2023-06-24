@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.patch
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -153,6 +150,34 @@ class AsanaControllerTest @Autowired constructor(val mockMvc: MockMvc, val objec
                 }
         }
     }
+
+    @Nested
+    @DisplayName("DELETE /yoga/asanas/{id}")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class DeleteAsana {
+
+      @Test
+      fun `should delete an Asana with given Id `() {
+         val asanaId = 3
+
+          mockMvc.delete("$baseUrl/$asanaId")
+              .andDo { print() }
+              .andExpect {
+                  status { isNoContent() }
+              }
+
+          mockMvc.get("$baseUrl/id/$asanaId")
+              .andDo { print() }
+              .andExpect { status { isNotFound() } }
+      }
+
+        @Test
+        fun `should return NOT_FOUND when no id exists for delete endpoint`() {
+           val id = 786
+            mockMvc.delete("$baseUrl/$id")
+                .andExpect { status { isNotFound() } }
+           }
+     }
 }
 
 

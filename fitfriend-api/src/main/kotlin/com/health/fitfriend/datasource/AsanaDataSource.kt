@@ -11,5 +11,6 @@ interface AsanaDataSource {
     fun retrieveAsanaByName(name: String): Asana
     fun createAsana(asana: Asana): Asana
     fun updateAsana(asana: Asana): Asana
+    fun deleteAsana(id: Int): Unit
 
 }
