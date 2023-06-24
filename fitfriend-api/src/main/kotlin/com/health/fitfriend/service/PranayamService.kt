@@ -13,4 +13,5 @@ class PranayamService(private val pranayamDataSource: PranayamDataSource) {
     fun getpranayamById(id: Int): Pranayam = pranayamDataSource.retrivePranayamById(id)
 
     fun getpranayamByName(name: String) = pranayamDataSource.retrivePranayamByName(name)
+    fun updatePranayam(pranayam: Pranayam): Pranayam = pranayamDataSource.updatePranayam(pranayam)
 }

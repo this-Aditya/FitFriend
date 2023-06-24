@@ -85,7 +85,7 @@ class MeditationControllerTest @Autowired constructor(
     inner class PostNewMeditation {
         @Test
         fun `should add a new meditation`() {
-            val newMeditation = Meditation(4, "four", "four", "four", "four", "four", "four")
+            val newMeditation = Meditation(4, "four", "four", "four", "four", "four", "four", "four")
 
             val postResponse = mockMvc.post(baseUrl) {
                 contentType = MediaType.APPLICATION_JSON
@@ -107,7 +107,7 @@ class MeditationControllerTest @Autowired constructor(
 
         @Test
         fun `should show BAD_REQUEST while performing post request for existing meditation id`() {
-            val invalidMeditation = Meditation(1, "four", "four", "four", "four", "four", "four")
+            val invalidMeditation = Meditation(1, "four", "four", "four", "four", "four", "four","four")
 
             val badRequestResponse = mockMvc.post(baseUrl) {
                 contentType = MediaType.APPLICATION_JSON
@@ -124,7 +124,7 @@ class MeditationControllerTest @Autowired constructor(
 
         @Test
         fun `should update the existing meditation `() {
-            val updatedMeditation = Meditation(1, "four", "four", "four", "four", "four", "four")
+            val updatedMeditation = Meditation(1, "four", "four","four", "four", "four", "four", "four")
 
             val patchResponse = mockMvc.patch(baseUrl) {
                 contentType = MediaType.APPLICATION_JSON
@@ -153,7 +153,7 @@ class MeditationControllerTest @Autowired constructor(
 
         @Test
         fun `should return NOT_FOUND when no such id exists for meditation`() {
-            val wrongPatchMeditation = Meditation(10, "four", "four", "four", "four", "four", "four")
+            val wrongPatchMeditation = Meditation(10, "four", "four","four", "four", "four", "four", "four")
 
             val patchResponse = mockMvc.patch(baseUrl) {
                 contentType = MediaType.APPLICATION_JSON

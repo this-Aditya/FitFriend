@@ -7,8 +7,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import kotlin.IllegalArgumentException
 
 @RestController
 @RequestMapping("/yoga/pranayams")
@@ -22,6 +26,10 @@ class PranayamController(private val pranayamService: PranayamService) {
     fun handlePranayamIdNotFound(e: IndexOutOfBoundsException): ResponseEntity<String> =
         ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleBadRequest(e: IllegalArgumentException):ResponseEntity<String> =
+        ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+
     @GetMapping
     fun getPranayams(): Collection<Pranayam> = pranayamService.getPranayams()
 
@@ -30,5 +38,9 @@ class PranayamController(private val pranayamService: PranayamService) {
 
     @GetMapping("/id/{id}")
     fun getPranayamById(@PathVariable id: Int): Pranayam = pranayamService.getpranayamById(id)
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun updatepost(@RequestBody pranayam: Pranayam): Pranayam = pranayamService.updatePranayam(pranayam)
 
 }
