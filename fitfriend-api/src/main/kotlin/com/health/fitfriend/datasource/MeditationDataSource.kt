@@ -8,4 +8,5 @@ interface MeditationDataSource {
     fun retriveMeditationByName(name: String): Meditation
     fun retriveMeditationById(id: Int): Meditation
     fun addMeditation(meditation: Meditation): Meditation
+    fun updateMeditation(meditation: Meditation): Meditation
 }
