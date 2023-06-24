@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 
 @SpringBootTest
@@ -102,18 +103,68 @@ class MeditationControllerTest @Autowired constructor(
                         json(objectMapper.writeValueAsString(postResponse))
                     }
                 }
+
+            mockMvc.get("$baseUrl/id/${newMeditation.id}")
+                .andExpect { status { isOk() } } }
         }
-        
+
         @Test
         fun `should show BAD_REQUEST while performing post request for existing meditation id`() {
-           val invalidMeditation = Meditation(1, "four", "four", "four", "four", "four", "four")
+            val invalidMeditation = Meditation(1, "four", "four", "four", "four", "four", "four")
 
-           val badRequestResponse = mockMvc.post(baseUrl) {
-               contentType = MediaType.APPLICATION_JSON
-               content = objectMapper.writeValueAsString(invalidMeditation)
-           }
+            val badRequestResponse = mockMvc.post(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(invalidMeditation)
+            }
             badRequestResponse.andDo { print() }
                 .andExpect { status { isBadRequest() } }
+        }
+
+    @Nested
+    @DisplayName("PATCH yoga/meditation")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class UpdateExistingMeditation {
+
+        @Test
+        fun `should update the existing meditation `() {
+            val updatedMeditation = Meditation(1, "four", "four", "four", "four", "four", "four")
+
+            val patchResponse = mockMvc.patch(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(updatedMeditation)
+            }
+
+            patchResponse.andDo { print() }
+                .andExpect {
+                    status { isOk() }
+                    content {
+                        contentType(MediaType.APPLICATION_JSON)
+                        json(objectMapper.writeValueAsString(updatedMeditation))
+                    }
+                }
+
+            mockMvc.get("$baseUrl/id/${updatedMeditation.id}")
+                .andDo { print() }
+                .andExpect {
+                    status { isOk() }
+                    content {
+                        contentType(MediaType.APPLICATION_JSON)
+                        json(objectMapper.writeValueAsString(updatedMeditation))
+                    }
+                }
+        }
+
+        @Test
+        fun `should return NOT_FOUND when no such id exists for meditation`() {
+            val wrongPatchMeditation = Meditation(10, "four", "four", "four", "four", "four", "four")
+
+            val patchResponse = mockMvc.patch(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(wrongPatchMeditation)
+            }
+
+            patchResponse.andDo { print() }
+                .andExpect { status { isNotFound() } }
         }
     }
 }
