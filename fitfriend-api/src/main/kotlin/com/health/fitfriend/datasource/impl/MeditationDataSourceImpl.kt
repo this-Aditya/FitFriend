@@ -23,6 +23,7 @@ class MeditationDataSourceImpl : MeditationDataSource {
             throw IllegalArgumentException("Meditation with id ${meditation.id} already exists")
         }
         meditations.add(meditation)
+        meditations.sortBy { it.id }
         return meditation
     }
 
@@ -31,6 +32,7 @@ class MeditationDataSourceImpl : MeditationDataSource {
             ?: throw NoSuchElementException("Couldn't find any meditation with id ${meditation.id}")
         meditations.remove(meditationToUpdate)
         meditations.add(meditation)
+        meditations.sortBy { it.id }
         return meditation
     }
 

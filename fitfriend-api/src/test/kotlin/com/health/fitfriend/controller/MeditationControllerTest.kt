@@ -22,7 +22,7 @@ class MeditationControllerTest @Autowired constructor(
     private val baseUrl = "/yoga/meditations"
 
     @Test
-    fun `should return all banks`() {
+    fun `should return all meditations`() {
         //when/then
         mockMvc.get(baseUrl)
             .andDo { print() }

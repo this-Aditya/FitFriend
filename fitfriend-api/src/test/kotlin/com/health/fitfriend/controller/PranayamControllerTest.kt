@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
@@ -130,5 +131,56 @@ class PranayamControllerTest @Autowired constructor(val mockMvc: MockMvc, val ob
                 .andExpect { status { isBadRequest() } }
         }
     }
+
+    @Nested
+    @DisplayName("PATCH /yoga/pranayams")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class ShouldUpdatePranayam {
+
+      @Test
+      fun `should update pranayam if the pranayam with same id already exists`() {
+          val pranayamToUpdate = Pranayam(1, "yeye", "first", "first", "first", "first", "first", "first")
+
+          val patchResponse = mockMvc.patch(baseUrl) {
+              contentType = MediaType.APPLICATION_JSON
+              content = objectMapper.writeValueAsString(pranayamToUpdate)
+          }
+
+          patchResponse.andDo { print() }
+              .andExpect {
+                  status { isOk() }
+                  content {
+                      contentType(MediaType.APPLICATION_JSON)
+                      json(objectMapper.writeValueAsString(pranayamToUpdate))
+                  }
+              }
+
+          mockMvc.get("$baseUrl/id/${pranayamToUpdate.id}")
+              .andDo { print() }
+              .andExpect {
+                  status { isOk() }
+                  content {
+                      contentType(MediaType.APPLICATION_JSON)
+                      json(objectMapper.writeValueAsString(pranayamToUpdate))
+                  }
+              }
+      }
+
+        @Test
+        fun `should return NOT_FOUND when pranayam with same id is not found `() {
+            val pranayamToUpdate = Pranayam(6, "yeye", "first", "first", "first", "first", "first", "first")
+
+            val invalidPatchResponse = mockMvc.patch(baseUrl) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(pranayamToUpdate)
+            }
+
+            invalidPatchResponse.andDo { print() }
+                .andExpect {
+                    status { isNotFound() }
+                }
+
+        }
+     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -41,6 +42,8 @@ class PranayamController(private val pranayamService: PranayamService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun updatepost(@RequestBody pranayam: Pranayam): Pranayam = pranayamService.updatePranayam(pranayam)
+    fun addPranayam(@RequestBody pranayam: Pranayam): Pranayam = pranayamService.addPranayam(pranayam)
 
+    @PatchMapping
+    fun updatePranayam(@RequestBody pranayam: Pranayam): Pranayam = pranayamService.updatePranayam(pranayam)
 }

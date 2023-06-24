@@ -19,11 +19,21 @@ class PranayamDataSourceImpl : PranayamDataSource {
     override fun retrivePranayamByName(name: String): Pranayam =
         pranayams.firstOrNull { name.equals(it.name, ignoreCase = true) } ?: throw NoSuchElementException("Couldn't find pranayam named $name")
 
-    override fun updatePranayam(pranayam: Pranayam): Pranayam {
+    override fun addPranayam(pranayam: Pranayam): Pranayam {
         if (pranayams.any { it.id == pranayam.id } ) {
             throw IllegalArgumentException ("Pranayam with id ${pranayam.id} already exists.")
         }
         pranayams.add(pranayam)
+        pranayams.sortBy { it.id }
+        return pranayam
+    }
+
+    override fun updatePranayam(pranayam: Pranayam): Pranayam {
+        val pranayamToUpdate = pranayams.firstOrNull { it.id == pranayam.id }
+            ?: throw NoSuchElementException("Couldn't find any pranayam with id ${pranayam.id}")
+        pranayams.remove(pranayamToUpdate)
+        pranayams.add(pranayam)
+        pranayams.sortBy { it.id }
         return pranayam
     }
 
