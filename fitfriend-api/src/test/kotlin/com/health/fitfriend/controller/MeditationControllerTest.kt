@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.patch
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -167,4 +164,41 @@ class MeditationControllerTest @Autowired constructor(
                 .andExpect { status { isNotFound() } }
         }
     }
+    
+    @Nested
+    @DisplayName("DELETE /yoga/meditations/id/{meditationId}")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class PerformDelete  {
+      @Test
+      fun `should delete the meditation with given meditation id`() {
+         val meditationToDelete = 2
+
+          mockMvc.delete("$baseUrl/${meditationToDelete}")
+              .andDo { print() }
+              .andExpect { status { isNoContent() } }
+
+          mockMvc.get("$baseUrl/id/$meditationToDelete")
+              .andDo { print() }
+              .andExpect { status { isNotFound() } }
+         }
+
+        @Test
+        fun `should return NOT_FOUND when no such meditation id exists`() {
+           val meditationId = 5
+
+            mockMvc.delete("$baseUrl/$meditationId")
+                .andDo { print() }
+                .andExpect { status { isNotFound() } }
+
+           }
+     }
 }
+
+
+
+
+
+
+
+
+

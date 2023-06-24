@@ -9,4 +9,5 @@ interface MeditationDataSource {
     fun retriveMeditationById(id: Int): Meditation
     fun addMeditation(meditation: Meditation): Meditation
     fun updateMeditation(meditation: Meditation): Meditation
+    fun deleteMeditation(id: Int): Unit
 }

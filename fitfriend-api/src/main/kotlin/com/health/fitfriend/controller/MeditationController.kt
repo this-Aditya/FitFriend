@@ -4,6 +4,7 @@ import com.health.fitfriend.model.Meditation
 import com.health.fitfriend.service.MeditationService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -42,4 +43,8 @@ class MeditationController(private val service: MeditationService) {
 
     @PatchMapping
     fun updateMeditation(@RequestBody meditation: Meditation): Meditation = service.updateMeditation(meditation)
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteMeditation(@PathVariable id: Int): Unit = service.deleteMeditation(id)
 }
