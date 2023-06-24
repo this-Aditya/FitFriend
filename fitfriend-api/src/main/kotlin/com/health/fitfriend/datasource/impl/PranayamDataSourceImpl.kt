@@ -10,11 +10,8 @@ class PranayamDataSourceImpl : PranayamDataSource {
     override fun retrivePranayams(): Collection<Pranayam> = pranayams
 
     override fun retrivePranayamById(id: Int): Pranayam =
-        try {
-            pranayams[id-1]
-        } catch (e: IndexOutOfBoundsException) {
-            throw IndexOutOfBoundsException("No Pranayam available for id $id")
-        }
+        pranayams.firstOrNull { it.id == id }
+            ?: throw NoSuchElementException("Pranayam with id $id doesn't exist")
 
     override fun retrivePranayamByName(name: String): Pranayam =
         pranayams.firstOrNull { name.equals(it.name, ignoreCase = true) } ?: throw NoSuchElementException("Couldn't find pranayam named $name")
@@ -24,7 +21,6 @@ class PranayamDataSourceImpl : PranayamDataSource {
             throw IllegalArgumentException ("Pranayam with id ${pranayam.id} already exists.")
         }
         pranayams.add(pranayam)
-        pranayams.sortBy { it.id }
         return pranayam
     }
 
@@ -33,8 +29,13 @@ class PranayamDataSourceImpl : PranayamDataSource {
             ?: throw NoSuchElementException("Couldn't find any pranayam with id ${pranayam.id}")
         pranayams.remove(pranayamToUpdate)
         pranayams.add(pranayam)
-        pranayams.sortBy { it.id }
         return pranayam
+    }
+
+    override fun deletePranayam(id: Int) {
+        val pranayamToDelete: Pranayam = pranayams.firstOrNull { it.id == id }
+            ?: throw NoSuchElementException("Couldn't find a pranayam with id $id to delete ")
+        pranayams.remove(pranayamToDelete)
     }
 
     val pranayam1 = Pranayam(1, "Anulom Vilom", "Anulom Vilom is a specific type of pranayama, or controlled breathing, in yoga. It involves holding one nostril closed while inhaling, then holding the other nostril closed while exhaling. The process is then reversed and repeated.",

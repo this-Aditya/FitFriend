@@ -39,7 +39,7 @@ class MeditationControllerTest @Autowired constructor(
     inner class GetSingleMeditationByIdentifier {
         @Test
         fun `should provide a single meditation by name`() {
-            mockMvc.get("$baseUrl/name/First")
+            mockMvc.get("$baseUrl/name/dhyana")
                 .andDo { print() }
                 .andExpect {
                     status { isOk() }

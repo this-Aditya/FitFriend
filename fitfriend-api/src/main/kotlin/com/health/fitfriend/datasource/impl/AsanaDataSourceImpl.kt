@@ -10,11 +10,8 @@ class AsanaDataSourceImpl : AsanaDataSource {
     override fun retrieveAsanas(): Collection<Asana> = asanas
 
     override fun retrieveAsanaById(id: Int): Asana =
-        try {
-            asanas[id - 1]
-        } catch (e: IndexOutOfBoundsException) {
-            throw IndexOutOfBoundsException("No asana found for id $id")
-        }
+        asanas.firstOrNull{ it.id == id }
+            ?: throw NoSuchElementException("No Asana exists with id $id")
 
     override fun retrieveAsanaByName(name: String): Asana =
         asanas.firstOrNull { it.name.equals(name, ignoreCase = true) } ?: throw NoSuchElementException("Cound not find asana with name $name")

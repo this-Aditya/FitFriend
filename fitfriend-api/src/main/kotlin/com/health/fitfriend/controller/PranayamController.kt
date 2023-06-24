@@ -4,6 +4,7 @@ import com.health.fitfriend.model.Pranayam
 import com.health.fitfriend.service.PranayamService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -46,4 +47,8 @@ class PranayamController(private val pranayamService: PranayamService) {
 
     @PatchMapping
     fun updatePranayam(@RequestBody pranayam: Pranayam): Pranayam = pranayamService.updatePranayam(pranayam)
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deletePranayam(@PathVariable id: Int): Unit = pranayamService.deletePranayam(id)
 }

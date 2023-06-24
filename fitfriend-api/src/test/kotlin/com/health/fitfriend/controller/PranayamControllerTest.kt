@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.patch
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @SpringBootTest
@@ -181,6 +178,36 @@ class PranayamControllerTest @Autowired constructor(val mockMvc: MockMvc, val ob
                 }
 
         }
+     }
+
+    @Nested
+    @DisplayName("DELETE /yoga/pranayam/{id}")
+    @TestInstance(Lifecycle.PER_CLASS)
+    inner class DeletePranayam {
+
+      @Test
+      fun `should delete a pranayam with given id `() {
+
+          val pranayamId = 3
+
+          mockMvc.delete("$baseUrl/$pranayamId")
+              .andDo { print() }
+              .andExpect {
+                  status { isNoContent() }
+              }
+
+          mockMvc.get("$baseUrl/id/$pranayamId")
+              .andExpect { status { isNotFound() } }
+         }
+
+        @Test
+        fun `should return not found when No such pranayam id exists to delete`() {
+           val pranayamId = 9
+
+            mockMvc.delete("$baseUrl/$pranayamId")
+                .andDo { print() }
+                .andExpect { status { isNotFound() } }
+           }
      }
 
 }

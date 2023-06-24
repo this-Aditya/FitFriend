@@ -8,4 +8,5 @@ interface PranayamDataSource {
     fun retrivePranayamByName(name: String): Pranayam
     fun addPranayam(pranayam: Pranayam): Pranayam
     fun updatePranayam(pranayam: Pranayam): Pranayam
+    fun deletePranayam(id: Int): Unit
 }
