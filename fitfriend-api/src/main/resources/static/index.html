@@ -1,1 +1,200 @@
-<h1>Hello, from FitFriend REST-API. Explore the ways to be healthy :).</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FitFriend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555555;
+            text-align: center;
+        }
+
+        p {
+            color: #777777;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-top: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 10px;
+        }
+
+        .image-space {
+            width: 300px;
+            height: 200px;
+            background-color: #cccccc;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        .image-space:hover {
+            transform: scale(1.05);
+        }
+
+        .request {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .request p {
+            margin-right: 5px;
+        }
+
+        .get {
+            background-color: #94c95a;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .post {
+            background-color: #d26b47;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .patch {
+            background-color: #e7a93d;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .delete {
+            background-color: #d1434e;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to FitFriend</h1>
+
+    <div class="section">
+        <h2>Yoga</h2>
+        <div class="image-space" style="background-image: url('https://img.freepik.com/free-vector/gradient-yoga-poses-collection_52683-84551.jpg?w=2000');"></div>
+        <div class="request">
+            <p>Get all asanas:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/asanas</span>
+        </div>
+        <div class="request">
+            <p>Get asana by ID:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/asanas/id/3</span>
+        </div>
+        <div class="request">
+            <p>Get asana by Name:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/asanas/name/karnaPidasana</span>
+        </div>
+        <div class="request">
+            <p>Insert a new asana:</p>
+            <span class="post">https://fitfriend.onrender.com/yoga/asanas</span>
+        </div>
+        <div class="request">
+            <p>Update an asana:</p>
+            <span class="patch">https://fitfriend.onrender.com/yoga/asanas</span>
+        </div>
+        <div class="request">
+            <p>Delete an asana:</p>
+            <span class="delete">https://fitfriend.onrender.com/yoga/asanas/2</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Pranayama</h2>
+        <div class="image-space" style="background-image: url('https://lh3.googleusercontent.com/XAeEa4OAyuP80Z5rn1nJOf6gW3s5J6QNzyJH9NLsL1BXA8RV-lE3C6ZL_NaJ3TbN7yoLbr45X-nOjWY-pYmMUaop01RyV2i4m3N9Fdp4N4vxmR-GUK7nDGsMKs-I1jN3k4f_HMrI');"></div>
+        <div class="request">
+            <p>Get all pranayams:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/pranayams</span>
+        </div>
+        <div class="request">
+            <p>Get pranayam by ID:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/pranayams/id/3</span>
+        </div>
+        <div class="request">
+            <p>Get pranayam by Name:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/pranayams/name/anulom vilom</span>
+        </div>
+        <div class="request">
+            <p>Insert a new pranayam:</p>
+            <span class="post">https://fitfriend.onrender.com/yoga/pranayams</span>
+        </div>
+        <div class="request">
+            <p>Update a pranayam:</p>
+            <span class="patch">https://fitfriend.onrender.com/yoga/pranayams</span>
+        </div>
+        <div class="request">
+            <p>Delete a pranayam:</p>
+            <span class="delete">https://fitfriend.onrender.com/yoga/pranayams/2</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Meditation</h2>
+        <div class="image-space" style="background-image: url('https://img.mensxp.com/media/content/2022/Oct/yoga-lotus-pose-meditation_635b7b1822f7c.jpeg');"></div>
+        <div class="request">
+            <p>Get all meditations:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/meditations</span>
+        </div>
+        <div class="request">
+            <p>Get meditation by ID:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/meditations/id/3</span>
+        </div>
+        <div class="request">
+            <p>Get meditation by Name:</p>
+            <span class="get">https://fitfriend.onrender.com/yoga/meditations/name/dhyana</span>
+        </div>
+        <div class="request">
+            <p>Insert a new meditation:</p>
+            <span class="post">https://fitfriend.onrender.com/yoga/meditations</span>
+        </div>
+        <div class="request">
+            <p>Update a meditation:</p>
+            <span class="patch">https://fitfriend.onrender.com/yoga/meditations</span>
+        </div>
+        <div class="request">
+            <p>Delete a meditation:</p>
+            <span class="delete">https://fitfriend.onrender.com/yoga/meditations/2</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
