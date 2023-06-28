@@ -61,6 +61,7 @@ class SignupActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@SignupActivity, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                     Log.i(TAG, "Sign up successful")
+                    startActivity(Intent(this@SignupActivity, DashboardActivity::class.java))
                 }
             } catch (ex: Exception) {
                 withContext(Dispatchers.Main) {

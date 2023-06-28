@@ -53,5 +53,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     //google-play-services
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    //cardview
+    implementation 'androidx.cardview:cardview:1.0.0'
 
 }

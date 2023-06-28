@@ -9,4 +9,6 @@
     <string name="sleep_info">Sleep Info</string>
     <string name="activity">Activity</string>
     <string name="schedule">Schedule</string>
+    <string name="hi_welcome_to_fitfriend">Hi, Welcome to FitFriend</string>
+    <string name="info_fitfriend">FitFriend: Your ultimate Android wellness companion. Discover yoga, pranayama, and meditation techniques.</string>
 </resources>
