@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">FitFriend</string>
     <string name="webclient_id">217738488859-gh3n4gfbl58fc03mjcqkephclp9ft5u8.apps.googleusercontent.com</string>
+    <string name="greet_user">Hello Fit Friend</string>
+    <string name="welcome_note">Welcome 😀</string>
+    <string name="asanas">Asanas</string>
+    <string name="breathings">Breathings</string>
+    <string name="meditations">Meditations</string>
+    <string name="sleep_info">Sleep Info</string>
+    <string name="activity">Activity</string>
+    <string name="schedule">Schedule</string>
 </resources>
