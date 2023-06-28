@@ -59,9 +59,10 @@ class SignupActivity : AppCompatActivity() {
             try {
                 auth.signInWithCredential(credentials).await()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@SignupActivity, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignupActivity, "Welcome to FitFriend", Toast.LENGTH_SHORT).show()
                     Log.i(TAG, "Sign up successful")
                     startActivity(Intent(this@SignupActivity, DashboardActivity::class.java))
+                    finish()
                 }
             } catch (ex: Exception) {
                 withContext(Dispatchers.Main) {
