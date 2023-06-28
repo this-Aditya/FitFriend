@@ -1,4 +1,4 @@
-# FitFriend API Documentation
+# FitFriend API 
 
 The FitFriend API provides access to yoga, pranayama, and meditation information.
 
