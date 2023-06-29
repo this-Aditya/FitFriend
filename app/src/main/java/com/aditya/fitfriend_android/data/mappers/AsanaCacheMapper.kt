@@ -1,6 +1,6 @@
-package com.aditya.fitfriend_android.db.mappers
+package com.aditya.fitfriend_android.data.mappers
 
-import com.aditya.fitfriend_android.db.entities.AsanaCacheEntity
+import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.utils.EntityMapper
 

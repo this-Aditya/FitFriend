@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.db.entities
+package com.aditya.fitfriend_android.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

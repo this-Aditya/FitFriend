@@ -1,5 +1,9 @@
 package com.aditya.fitfriend_android.utils
 
+/**
+ *  This interface can be implemented for conversion between generic
+ *  data models and Cache, Network entities
+ */
 interface EntityMapper<Entity, DomainModel> {
 
     fun mapFromEntity(entity: Entity): DomainModel

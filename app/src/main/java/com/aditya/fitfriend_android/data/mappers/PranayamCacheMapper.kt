@@ -1,6 +1,6 @@
-package com.aditya.fitfriend_android.db.mappers
+package com.aditya.fitfriend_android.data.mappers
 
-import com.aditya.fitfriend_android.db.entities.PranayamCacheEntity
+import com.aditya.fitfriend_android.data.entities.PranayamCacheEntity
 import com.aditya.fitfriend_android.models.Pranayam
 import com.aditya.fitfriend_android.utils.EntityMapper
 

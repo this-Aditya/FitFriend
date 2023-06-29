@@ -1,11 +1,11 @@
-package com.aditya.fitfriend_android.db.entities
+package com.aditya.fitfriend_android.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity("meditations")
-data class MeditationCacheEntity(
+@Entity("pranayams")
+data class PranayamCacheEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo("id")
     val id: Int,
@@ -19,8 +19,8 @@ data class MeditationCacheEntity(
     @ColumnInfo("benefits")
     val benefits: String,
 
-    @ColumnInfo("instructions")
-    val instructions: String,
+    @ColumnInfo("directions")
+    val directions: String,
 
     @ColumnInfo("precautions")
     val precautions: String,
@@ -30,5 +30,4 @@ data class MeditationCacheEntity(
 
     @ColumnInfo("videoUrl")
     val videoUrl: String
-
 )

@@ -1,6 +1,6 @@
-package com.aditya.fitfriend_android.db.mappers
+package com.aditya.fitfriend_android.data.mappers
 
-import com.aditya.fitfriend_android.db.entities.MeditationCacheEntity
+import com.aditya.fitfriend_android.data.entities.MeditationCacheEntity
 import com.aditya.fitfriend_android.models.Meditation
 import com.aditya.fitfriend_android.utils.EntityMapper
 
