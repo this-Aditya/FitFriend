@@ -1,8 +1,8 @@
-package com.aditya.fitfriend_android
+package com.aditya.fitfriend_android.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.aditya.fitfriend_android.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 

@@ -1,12 +1,13 @@
-package com.aditya.fitfriend_android
+package com.aditya.fitfriend_android.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.aditya.fitfriend_android.R
 import com.aditya.fitfriend_android.databinding.ActivitySignupBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -60,7 +61,8 @@ class SignupActivity : AppCompatActivity() {
             try {
                 auth.signInWithCredential(credentials).await()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@SignupActivity, "Welcome to FitFriend", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignupActivity, "Welcome to FitFriend", Toast.LENGTH_SHORT)
+                        .show()
                     Log.i(TAG, "Sign up successful")
                     startActivity(Intent(this@SignupActivity, DashboardActivity::class.java))
                     finish()

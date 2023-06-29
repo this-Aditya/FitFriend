@@ -1,8 +1,8 @@
-package com.aditya.fitfriend_android
+package com.aditya.fitfriend_android.ui
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.aditya.fitfriend_android.databinding.ActivityDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -17,7 +17,6 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
         auth = FirebaseAuth.getInstance()
         val name = auth.currentUser?.displayName
         val imageUri = auth.currentUser?.photoUrl
