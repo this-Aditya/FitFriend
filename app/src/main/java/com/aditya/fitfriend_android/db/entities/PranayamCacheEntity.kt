@@ -19,8 +19,8 @@ data class PranayamCacheEntity(
     @ColumnInfo("benefits")
     val benefits: String,
 
-    @ColumnInfo("description")
-    val description: String,
+    @ColumnInfo("directions")
+    val directions: String,
 
     @ColumnInfo("precautions")
     val precautions: String,
