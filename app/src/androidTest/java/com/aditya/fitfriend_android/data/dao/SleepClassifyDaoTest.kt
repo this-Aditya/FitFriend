@@ -7,7 +7,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.aditya.fitfriend_android.data.YogaDataBase
 import com.aditya.fitfriend_android.data.entities.SleepClassifyEntity
-import com.aditya.fitfriend_android.data.entities.SleepSegmentEntity
 import com.aditya.fitfriend_android.getOrAwaitValue
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
