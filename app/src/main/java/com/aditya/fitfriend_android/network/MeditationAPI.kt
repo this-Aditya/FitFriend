@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.data.network
+package com.aditya.fitfriend_android.network
 
 import com.aditya.fitfriend_android.models.Meditation
 import retrofit2.http.GET

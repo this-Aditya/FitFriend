@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.data.network
+package com.aditya.fitfriend_android.network
 
 import com.aditya.fitfriend_android.models.Pranayam
 import retrofit2.http.GET
