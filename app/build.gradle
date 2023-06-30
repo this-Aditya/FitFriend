@@ -81,5 +81,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     testImplementation "androidx.room:room-testing:$roomVersion"
+    //Play services dependency for activity recognition
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
 }
