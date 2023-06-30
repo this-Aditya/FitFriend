@@ -10,5 +10,5 @@ interface AsanaAPI {
     suspend fun getAsanas(): List<Asana>
 
     @GET("/yoga/asanas/id/{id}")
-    suspend fun getAsana(@Path("id") id: Int)
+    suspend fun getAsana(@Path("id") id: Int): Asana
 }

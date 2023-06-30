@@ -10,6 +10,6 @@ interface MeditationAPI {
     suspend fun getMeditations(): List<Meditation>
 
     @GET("/yoga/meditations/id/{id}")
-    suspend fun getMeditation(@Path("id") id: Int)
+    suspend fun getMeditation(@Path("id") id: Int): Meditation
 
 }

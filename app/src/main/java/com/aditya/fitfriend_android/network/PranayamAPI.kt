@@ -10,5 +10,5 @@ interface PranayamAPI {
     suspend fun getPranayams(): List<Pranayam>
 
     @GET("/yoga/pranayams/id/{id}")
-    suspend fun getPranayam(@Path("id") id: Int)
+    suspend fun getPranayam(@Path("id") id: Int): Pranayam
 }
