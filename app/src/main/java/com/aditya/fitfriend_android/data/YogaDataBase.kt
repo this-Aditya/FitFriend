@@ -10,8 +10,11 @@ import com.aditya.fitfriend_android.data.dao.SleepSegmentDao
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import com.aditya.fitfriend_android.data.entities.MeditationCacheEntity
 import com.aditya.fitfriend_android.data.entities.PranayamCacheEntity
+import com.aditya.fitfriend_android.data.entities.SleepClassifyEntity
+import com.aditya.fitfriend_android.data.entities.SleepSegmentEntity
 
-@Database(entities = [AsanaCacheEntity::class, MeditationCacheEntity::class, PranayamCacheEntity::class], version = 1)
+@Database(entities = [AsanaCacheEntity::class, MeditationCacheEntity::class,
+    PranayamCacheEntity::class, SleepSegmentEntity::class, SleepClassifyEntity::class], version = 1)
 abstract class YogaDataBase : RoomDatabase() {
 
     abstract fun asanaDao(): AsanaDao

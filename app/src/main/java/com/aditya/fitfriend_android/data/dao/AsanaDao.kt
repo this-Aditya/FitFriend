@@ -9,7 +9,7 @@ import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface AsanaDao {
+    interface AsanaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAsana(asana: AsanaCacheEntity): Long

@@ -13,6 +13,6 @@ interface SleepSegmentDao {
     fun getSleepSegments(): Flow<List<SleepSegmentEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSleepSegments(sleepSegments: List<SleepSegmentEntity>): Long
+    suspend fun insertSleepSegments(sleepSegments: List<SleepSegmentEntity>)
 
 }
