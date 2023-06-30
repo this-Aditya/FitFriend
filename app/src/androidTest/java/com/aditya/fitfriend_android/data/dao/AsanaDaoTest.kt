@@ -13,7 +13,6 @@ import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.getOrAwaitValue
 import com.aditya.fitfriend_android.models.Asana
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
