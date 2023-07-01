@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.ui.fragments
+package com.aditya.fitfriend_android.ui.landing_fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -21,7 +21,7 @@ class DashboardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.i(TAG, "onCreateView: DashboardFragment")
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()

@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.ui.fragments
+package com.aditya.fitfriend_android.ui.landing_fragments
 
 import android.content.Intent
 import android.os.Bundle

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.aditya.fitfriend_android.ui.fragments.SignUpFragment"
+        android:name="com.aditya.fitfriend_android.ui.landing_fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -18,7 +18,120 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.aditya.fitfriend_android.ui.fragments.DashboardFragment"
+        android:name="com.aditya.fitfriend_android.ui.landing_fragments.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_asanasListFragment"
+            app:destination="@id/asanasListFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_meditationListFragment"
+            app:destination="@id/meditationListFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_pranayamListFragment"
+            app:destination="@id/pranayamListFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_sleepFragment"
+            app:destination="@id/sleepFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_activityFragment"
+            app:destination="@id/activityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/asanasListFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.asana.AsanaListFragment"
+        android:label="fragment_asanas_list"
+        tools:layout="@layout/fragment_asana_list" >
+        <action
+            android:id="@+id/action_asanasListFragment_to_asanaFragment"
+            app:destination="@id/asanaFragment" />
+        <action
+            android:id="@+id/action_asanasListFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/asanasListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/asanaFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.asana.AsanaFragment"
+        android:label="fragment_asana"
+        tools:layout="@layout/fragment_asana" >
+        <action
+            android:id="@+id/action_asanaFragment_to_asanasListFragment"
+            app:destination="@id/asanasListFragment"
+            app:popUpTo="@id/asanaFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/meditationListFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.meditation.MeditationListFragment"
+        android:label="fragment_meditation_list"
+        tools:layout="@layout/fragment_meditation_list" >
+        <action
+            android:id="@+id/action_meditationListFragmentToMeditationfragment"
+            app:destination="@id/meditationFragment" />
+        <action
+            android:id="@+id/action_meditationListFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/meditationListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/meditationFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.meditation.MeditationFragment"
+        android:label="fragment_meditation"
+        tools:layout="@layout/fragment_meditation" >
+        <action
+            android:id="@+id/action_meditationFragment_to_meditationListFragment"
+            app:destination="@id/meditationListFragment"
+            app:popUpTo="@id/meditationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/pranayamListFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.pranayam.PranayamListFragment"
+        android:label="fragment_pranayam_list"
+        tools:layout="@layout/fragment_pranayam_list" >
+        <action
+            android:id="@+id/action_pranayamListFragment_to_pranayamFragment"
+            app:destination="@id/pranayamFragment" />
+        <action
+            android:id="@+id/action_pranayamListFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/pranayamListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/pranayamFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.pranayam.PranayamFragment"
+        android:label="fragment_pranayam"
+        tools:layout="@layout/fragment_pranayam" >
+        <action
+            android:id="@+id/action_pranayamFragment_to_pranayamListFragment"
+            app:destination="@id/pranayamListFragment"
+            app:popUpTo="@id/pranayamFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.sleep.SleepFragment"
+        android:label="fragment_sleep"
+        tools:layout="@layout/fragment_sleep" >
+        <action
+            android:id="@+id/action_sleepFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/sleepFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.aditya.fitfriend_android.ui.fragments.activity.ActivityFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_activity" >
+        <action
+            android:id="@+id/action_activityFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/activityFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
