@@ -16,7 +16,10 @@ import com.aditya.fitfriend_android.models.Pranayam
 import com.aditya.fitfriend_android.network.AsanaAPI
 import com.aditya.fitfriend_android.network.MeditationAPI
 import com.aditya.fitfriend_android.network.PranayamAPI
+import com.aditya.fitfriend_android.utils.DataState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlin.Exception
 
 /**
  * Implementation of YogaRepository Interface, all the constructor arguments
@@ -76,16 +79,62 @@ private val pranayamAPI: PranayamAPI
         sleepSegmentDao.insertSleepSegments(segmentEvents)
     }
 
-    override suspend fun getAsanasFromNetwork(): List<Asana> = asanaAPI.getAsanas()
+    override suspend fun getAsanasFromNetwork(): Flow<DataState<List<Asana>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val asanas = asanaAPI.getAsanas()
+            emit(DataState.Success(asanas))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
 
-    override suspend fun getAsanabyId(id: Int): Asana = asanaAPI.getAsana(id)
+    override suspend fun getAsanabyId(id: Int): Flow<DataState<Asana>> = flow {
+        emit(DataState.Loading)
+        try {
+            val asana = asanaAPI.getAsana(id)
+            emit(DataState.Success(asana))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
 
-    override suspend fun getPranayamsFromNetwork(): List<Pranayam> = pranayamAPI.getPranayams()
+    override suspend fun getPranayamsFromNetwork():Flow<DataState<List<Pranayam>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val pranayams = pranayamAPI.getPranayams()
+            emit(DataState.Success(pranayams))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
 
-    override suspend fun getPranayamById(id: Int): Pranayam = pranayamAPI.getPranayam(id)
+    override suspend fun getPranayamById(id: Int): Flow<DataState<Pranayam>> = flow {
+        emit(DataState.Loading)
+        try {
+            val pranayam = pranayamAPI.getPranayam(id)
+            emit(DataState.Success(pranayam))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
+    override suspend fun getMeditationsFromNetwork(): Flow<DataState<List<Meditation>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val meditations = meditationAPI.getMeditations()
+            emit(DataState.Success(meditations))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
 
-    override suspend fun getMeditationsFromNetwork(): List<Meditation> =
-        meditationAPI.getMeditations()
-
-    override suspend fun getMeditationById(id: Int): Meditation = meditationAPI.getMeditation(id)
+    override suspend fun getMeditationById(id: Int): Flow<DataState<Meditation>> = flow {
+        emit(DataState.Loading)
+        try {
+            val meditation = meditationAPI.getMeditation(id)
+            emit(DataState.Success(meditation))
+        } catch (ex: Exception) {
+            emit(DataState.Error(ex))
+        }
+    }
 }

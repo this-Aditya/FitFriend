@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.di
+package com.aditya.fitfriend_android.dependency_injection
 
 import android.app.Application
 import androidx.room.Room

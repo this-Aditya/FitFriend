@@ -1,4 +1,4 @@
-package com.aditya.fitfriend_android.di
+package com.aditya.fitfriend_android.dependency_injection
 
 import com.aditya.fitfriend_android.network.AsanaAPI
 import com.aditya.fitfriend_android.network.MeditationAPI
@@ -12,7 +12,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module

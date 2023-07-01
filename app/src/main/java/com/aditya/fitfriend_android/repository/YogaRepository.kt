@@ -8,6 +8,7 @@ import com.aditya.fitfriend_android.data.entities.SleepSegmentEntity
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.models.Meditation
 import com.aditya.fitfriend_android.models.Pranayam
+import com.aditya.fitfriend_android.utils.DataState
 import kotlinx.coroutines.flow.Flow
 
 interface YogaRepository {
@@ -35,14 +36,14 @@ interface YogaRepository {
     suspend fun insertSegmentEvents(segmentEvents: List<SleepSegmentEntity>)
 
     // Network Calls // Asana
-    suspend fun getAsanasFromNetwork(): List<Asana>
-    suspend fun getAsanabyId(id: Int): Asana
+    suspend fun getAsanasFromNetwork(): Flow<DataState<List<Asana>>>
+    suspend fun getAsanabyId(id: Int): Flow<DataState<Asana>>
 
     // Pranayams
-    suspend fun getPranayamsFromNetwork(): List<Pranayam>
-    suspend fun getPranayamById(id: Int): Pranayam
+    suspend fun getPranayamsFromNetwork(): Flow<DataState<List<Pranayam>>>
+    suspend fun getPranayamById(id: Int): Flow<DataState<Pranayam>>
 
     // Meditation
-    suspend fun getMeditationsFromNetwork(): List<Meditation>
-    suspend fun getMeditationById(id: Int): Meditation
+    suspend fun getMeditationsFromNetwork(): Flow<DataState<List<Meditation>>>
+    suspend fun getMeditationById(id: Int): Flow<DataState<Meditation>>
 }
