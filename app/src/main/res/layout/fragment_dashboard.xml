@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1DA0B7"
-    tools:context=".ui.DashboardActivity">
+    tools:context=".ui.fragments.DashboardFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/iv_userImage"
