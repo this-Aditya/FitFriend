@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aditya.fitfriend_android.R
+import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
+import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.databinding.FragmentAsanaBinding
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.utils.DataState
@@ -32,6 +35,7 @@ class AsanaFragment : Fragment() {
     private lateinit var asana: Asana
     private val viewModel: AsanaViewModel by viewModels()
     private val args: AsanaFragmentArgs by navArgs();
+    private val asanaCacheMapper = AsanaCacheMapper()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,10 +49,16 @@ class AsanaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = args.asanaId
-
+        handleActionButton()
         subscribeToObservers()
         viewModel.setStateEvent(MainStateEvent.GetAsanaEvent(id))
         handleClicks()
+        binding.fabYoga.visibility = View.GONE
+    }
+
+    private fun handleActionButton() {
+        if (args.isCachedAsana) binding.fabYoga.setImageResource(R.drawable.delete_yoga)
+        else binding.fabYoga.setImageResource(R.drawable.add_yoga)
     }
 
     private fun handleClicks() {
@@ -101,6 +111,18 @@ class AsanaFragment : Fragment() {
                 startActivity(webIntent)
             }
         }
+        binding.fabYoga.setOnClickListener {
+            val asana: AsanaCacheEntity = asanaCacheMapper.mapToEntity(asana)
+            if (!args.isCachedAsana) {
+                viewModel.setStateEvent(MainStateEvent.AddAsanaToCacheEvent(asana))
+                Toast.makeText(requireContext(), "Successfully saved ${asana.name}.", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.setStateEvent(MainStateEvent.DeleteCachedAsana(asana))
+                Toast.makeText(requireContext(), "Deleted ${asana.name}.", Toast.LENGTH_SHORT).show()
+                val action = AsanaFragmentDirections.actionAsanaFragmentToAsanasListFragment(true)
+                requireView().findNavController().navigate(action)
+            }
+        }
     }
 
     private fun subscribeToObservers() {
@@ -120,6 +142,7 @@ class AsanaFragment : Fragment() {
                      asana = datastate.data
                     Log.i(TAG, "Asana received -> ${asana.id} ${asana.name}")
                     processData()
+                    binding.fabYoga.visibility = View.VISIBLE
                 }
             }
         })
@@ -139,4 +162,10 @@ class AsanaFragment : Fragment() {
     private fun showProgressBar(show: Boolean) {
         binding.progressBarAsana.visibility = if (show) View.VISIBLE else View.GONE
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: AsanaFragment")
+    }
+
 }
