@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
+import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.repository.YogaRepository
 import com.aditya.fitfriend_android.utils.DataState
@@ -30,6 +31,14 @@ class AsanaViewModel @Inject constructor(
     val asanaDataState: LiveData<DataState<Asana>>
         get() = _asanaDataState
 
+    private val _cachedAsanaList: MutableLiveData<List<AsanaCacheEntity>> = MutableLiveData()
+        val cachedAsanaList: LiveData<List<AsanaCacheEntity>>
+            get() = _cachedAsanaList
+
+ private val _cachedAsana: MutableLiveData<AsanaCacheEntity> = MutableLiveData()
+        val cachedAsana: LiveData<AsanaCacheEntity>
+            get() = _cachedAsana
+
     fun setStateEvent(mainStateEvent: MainStateEvent<Int, AsanaCacheEntity>) {
         viewModelScope.launch {
             when (mainStateEvent) {
@@ -52,13 +61,25 @@ class AsanaViewModel @Inject constructor(
                 }
 
                 is MainStateEvent.AddAsanaToCacheEvent -> {
-
+                    viewModelScope.launch {
+                        repository.addAsana(mainStateEvent.asana)
+                        Log.i(TAG, "Added asana to database")
+                    }
                 }
                 is MainStateEvent.DeleteCachedAsana -> {
-
+                    viewModelScope.launch { 
+                        repository.deleteAsana(mainStateEvent.asana)
+                        Log.i(TAG, "Delete asana")
+                    }
                 }
                 MainStateEvent.GetCachedAsanasEvent -> {
-
+                   viewModelScope.launch {
+                       repository.getAsanas()
+                           .onEach {  cachedAsanas ->
+                               _cachedAsanaList.value = cachedAsanas
+                               Log.i(TAG, "retrived ${cachedAsanas.size} asanas from local storage.")
+                           }.launchIn(viewModelScope)
+                   }
                 }
             }
         }

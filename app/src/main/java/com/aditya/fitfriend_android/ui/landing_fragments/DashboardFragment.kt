@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.aditya.fitfriend_android.R
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -51,19 +50,18 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showDialogueBox() {
-        val options = arrayOf("All Asanas", "Saved Asanas")
+        val options = arrayOf("All Asanas", "Favourites")
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Select Asanas")
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> {
-                        view?.findNavController()
-                            ?.navigate(R.id.action_dashboardFragment_to_asanasListFragment)
+                       val action = DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(false)
+                        view?.findNavController()?.navigate(action)
                     }
-
                     1 -> {
-                        // User selected "Saved Asanas"
-                        // Handle the selection accordingly
+                       val action = DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(true)
+                        view?.findNavController()?.navigate(action)
                     }
                 }
             }

@@ -43,27 +43,28 @@
         app:layout_constraintStart_toStartOf="@+id/iv_userImage"
         app:layout_constraintTop_toBottomOf="@+id/iv_userImage" />
 
-    <TextView
-        android:id="@+id/tv_welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_note"
-        android:textColor="#FEDD06"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tv_userName"
-        app:layout_constraintStart_toStartOf="@+id/tv_userName"
-        app:layout_constraintTop_toBottomOf="@+id/tv_userName"
-        tools:layout_editor_absoluteY="219dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_welcomeText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/welcome_note"-->
+<!--        android:textColor="#FEDD06"-->
+<!--        android:textSize="36sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/tv_userName"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tv_userName"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_userName"-->
+<!--        tools:layout_editor_absoluteY="219dp" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_bottom_dashboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcomeText">
+        app:layout_constraintTop_toBottomOf="@+id/tv_userName">
 
         <TableLayout
             android:id="@+id/tl_bottom_dashboard"
