@@ -1,5 +1,6 @@
 package com.aditya.fitfriend_android.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "AsanaViewModel"
 
 @HiltViewModel
 class AsanaViewModel @Inject constructor(
@@ -34,6 +37,7 @@ class AsanaViewModel @Inject constructor(
                     repository.getAsanasFromNetwork()
                         .onEach { asanas ->
                             _asanasDataState.value = asanas
+                            Log.i(TAG, "Getting asanas from network")
                         }.launchIn(viewModelScope)
                 }
                 is MainStateEvent.GetAsanaEvent -> {
@@ -42,17 +46,18 @@ class AsanaViewModel @Inject constructor(
                         repository.getAsanabyId(id)
                             .onEach { asana ->
                                 _asanaDataState.value = asana
+                                Log.i(TAG, "Getting asana from network")
                             }.launchIn(viewModelScope)
                     }
                 }
 
-                is MainStateEvent.AddAsana -> {
+                is MainStateEvent.AddAsanaToCacheEvent -> {
 
                 }
-                is MainStateEvent.deleteAsana -> {
+                is MainStateEvent.DeleteCachedAsana -> {
 
                 }
-                MainStateEvent.getAsanas -> {
+                MainStateEvent.GetCachedAsanasEvent -> {
 
                 }
             }
@@ -63,7 +68,7 @@ class AsanaViewModel @Inject constructor(
 sealed class MainStateEvent<out T, out R>() {
     object GetAsanasEvent : MainStateEvent<Nothing, Nothing>()
     class GetAsanaEvent(val id: Int) : MainStateEvent<Int, Nothing>()
-    class AddAsana(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
-    class deleteAsana(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
-    object getAsanas : MainStateEvent<Nothing, Nothing>()
+    class AddAsanaToCacheEvent(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
+    class DeleteCachedAsana(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
+    object GetCachedAsanasEvent : MainStateEvent<Nothing, Nothing>()
 }

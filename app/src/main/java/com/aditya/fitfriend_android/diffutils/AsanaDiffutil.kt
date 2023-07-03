@@ -1,16 +1,21 @@
 package com.aditya.fitfriend_android.diffutils
 
-import android.util.Log
-import com.aditya.fitfriend_android.abstracts.AbstractYogaDiffutil
+import androidx.recyclerview.widget.DiffUtil
 import com.aditya.fitfriend_android.models.Asana
 
 private const val TAG = "AsanaDiffutil"
 
-class AsanaDiffutil(oldAsanas: List<Asana>, newAsanas: List<Asana>) :
-    AbstractYogaDiffutil<Asana>(oldAsanas, newAsanas) {
+class AsanaDiffutil(val oldAsanas: List<Asana>,val newAsanas: List<Asana>) :
+    DiffUtil.Callback() {
+    override fun getOldListSize(): Int = oldAsanas.size
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        Log.i(TAG, "areItemsTheSame: Asana Diffutils, overridden method")
-        return oldYogas[oldItemPosition].id == newYogas[newItemPosition].id
-    }
+    override fun getNewListSize(): Int = newAsanas.size
+
+    // Here we are returning true But it won't be called, it will be overriden by
+    // implementing class
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldAsanas[oldItemPosition] == newAsanas[newItemPosition]
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldAsanas[oldItemPosition] == newAsanas[newItemPosition]
 }

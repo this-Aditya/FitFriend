@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.fitfriend_android.databinding.ItemRowLayoutBinding
+import com.aditya.fitfriend_android.diffutils.AsanaDiffutil
 
 abstract class AbstractyogasAdapter<R>(protected val context: Context, private val itemClicked: (R) -> Unit) :
     RecyclerView.Adapter<AbstractyogasAdapter.AbstractViewHolder<R>>() {
@@ -20,14 +21,8 @@ abstract class AbstractyogasAdapter<R>(protected val context: Context, private v
     override fun onBindViewHolder(holder: AbstractViewHolder<R>, position: Int) {
         val yoga: R = yogas[position]
         holder.bindView(yoga)
-        binding.cvExpRow.setOnClickListener {
+        holder.binding.cvExpRow.setOnClickListener {
             itemClicked(yoga)
         }
-    }
-    fun setData(updatedYogas: List<R>) {
-        val diffUtil = AbstractYogaDiffutil<R>(yogas, updatedYogas)
-        val diffUtilResults = DiffUtil.calculateDiff(diffUtil)
-        yogas = updatedYogas
-        diffUtilResults.dispatchUpdatesTo(this)
     }
 }

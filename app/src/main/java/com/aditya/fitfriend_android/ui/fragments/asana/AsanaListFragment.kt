@@ -28,24 +28,41 @@ class AsanaListFragment : Fragment() {
 
     private lateinit var binding: FragmentAsanaListBinding
     private lateinit var adapter: AsanasAdapter
-    private val asanas = mutableListOf<Asana>()
+//    private val asanas = mutableListOf<Asana>()
     private val viewModel: AsanaViewModel by viewModels()
     var snackbar: Snackbar? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setStateEvent(MainStateEvent.GetAsanasEvent)
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i(TAG, "onCreateView: ")
         binding = FragmentAsanaListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(TAG, "onViewCreated: ")
         binding.progressBar.visibility = View.GONE
+        setUpAdapter()
         setUpRecyclerView()
         subscribeToObservers()
-        viewModel.setStateEvent(MainStateEvent.GetAsanasEvent)
+    }
+
+    private fun setUpAdapter() {
+        val view = requireView()
+        adapter = AsanasAdapter(requireContext()) { asana ->
+            Log.i(TAG, "Navigating from list to detail fragment view")
+            Log.i(TAG, "Navigating to asana -> Name: ${asana.name} ID: ${asana.id}")
+            val action = AsanaListFragmentDirections.actionAsanasListFragmentToAsanaFragment(asana.id)
+            view.findNavController().navigate(action)
+        }
     }
 
     private fun subscribeToObservers() {
@@ -54,10 +71,13 @@ class AsanaListFragment : Fragment() {
                 is DataState.Success<List<Asana>> -> {
                     showProgressBar(false)
                     showSnackBar(false)
-                    asanas.clear()
-                    asanas.addAll(datastate.data)
-                    adapter.setData(asanas.sortedBy { it.name.length })
+//                    asanas.clear()
+//                    asanas.addAll(datastate.data)
+                    adapter.setData(datastate.data)
                     Log.i(TAG, "Data received successfully")
+//                    asanas.forEach {
+//                        Log.d(TAG, "${it.name}  ${it.id}")
+//                    }
                 }
 
                 is DataState.Loading -> {
@@ -102,11 +122,6 @@ class AsanaListFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        val view = binding.root
-        adapter = AsanasAdapter(requireContext()) {
-            Log.i(TAG, "Navigating from list to detail fragment view")
-            view.findNavController().navigate(R.id.action_asanasListFragment_to_asanaFragment)
-        }
         binding.rvAsanas.adapter = adapter
         binding.rvAsanas.layoutManager = LinearLayoutManager(requireContext())
     }
