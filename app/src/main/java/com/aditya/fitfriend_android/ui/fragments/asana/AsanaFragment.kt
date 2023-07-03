@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aditya.fitfriend_android.R
@@ -20,8 +19,8 @@ import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.databinding.FragmentAsanaBinding
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.utils.DataState
+import com.aditya.fitfriend_android.viewmodels.AsanaStateEvent
 import com.aditya.fitfriend_android.viewmodels.AsanaViewModel
-import com.aditya.fitfriend_android.viewmodels.MainStateEvent
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +33,7 @@ class AsanaFragment : Fragment() {
     private lateinit var binding: FragmentAsanaBinding
     private lateinit var asana: Asana
     private val viewModel: AsanaViewModel by viewModels()
-    private val args: AsanaFragmentArgs by navArgs();
+    private val args: AsanaFragmentArgs by navArgs()
     private val asanaCacheMapper = AsanaCacheMapper()
 
     override fun onCreateView(
@@ -51,9 +50,10 @@ class AsanaFragment : Fragment() {
         val id = args.asanaId
         handleActionButton()
         subscribeToObservers()
-        viewModel.setStateEvent(MainStateEvent.GetAsanaEvent(id))
+        viewModel.setStateEvent(AsanaStateEvent.GetAsanaEvent(id))
         handleClicks()
         binding.fabYoga.visibility = View.GONE
+        binding.btnVideoAsanaD.visibility = View.GONE
     }
 
     private fun handleActionButton() {
@@ -114,11 +114,16 @@ class AsanaFragment : Fragment() {
         binding.fabYoga.setOnClickListener {
             val asana: AsanaCacheEntity = asanaCacheMapper.mapToEntity(asana)
             if (!args.isCachedAsana) {
-                viewModel.setStateEvent(MainStateEvent.AddAsanaToCacheEvent(asana))
-                Toast.makeText(requireContext(), "Successfully saved ${asana.name}.", Toast.LENGTH_SHORT).show()
+                viewModel.setStateEvent(AsanaStateEvent.AddAsanaToCacheEvent(asana))
+                Toast.makeText(
+                    requireContext(),
+                    "Successfully saved ${asana.name}.",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                viewModel.setStateEvent(MainStateEvent.DeleteCachedAsana(asana))
-                Toast.makeText(requireContext(), "Deleted ${asana.name}.", Toast.LENGTH_SHORT).show()
+                viewModel.setStateEvent(AsanaStateEvent.DeleteCachedAsana(asana))
+                Toast.makeText(requireContext(), "Deleted ${asana.name}.", Toast.LENGTH_SHORT)
+                    .show()
                 val action = AsanaFragmentDirections.actionAsanaFragmentToAsanasListFragment(true)
                 requireView().findNavController().navigate(action)
             }
@@ -127,25 +132,33 @@ class AsanaFragment : Fragment() {
 
     private fun subscribeToObservers() {
         Log.i(TAG, "Subscribed to observers for asana")
-        viewModel.asanaDataState.observe(viewLifecycleOwner, Observer { datastate ->
+        viewModel.asanaDataState.observe(viewLifecycleOwner) { datastate ->
             when (datastate) {
                 is DataState.Loading -> {
                     Log.d(TAG, "")
                     showProgressBar(true)
                 }
+
                 is DataState.Error -> {
+                    val exp = "Unable to resolve host \"fitfriend.onrender.com\": No address associated with hostname"
+                    if (datastate.ex.message.equals(exp)) {
+                        Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+                        return@observe
+                    }
                     showProgressBar(false)
                     Toast.makeText(requireContext(), "${datastate.ex}", Toast.LENGTH_SHORT).show()
                 }
+
                 is DataState.Success -> {
                     showProgressBar(false)
-                     asana = datastate.data
+                    asana = datastate.data
                     Log.i(TAG, "Asana received -> ${asana.id} ${asana.name}")
                     processData()
                     binding.fabYoga.visibility = View.VISIBLE
+                    binding.btnVideoAsanaD.visibility = View.VISIBLE
                 }
             }
-        })
+        }
     }
 
     private fun processData() {
