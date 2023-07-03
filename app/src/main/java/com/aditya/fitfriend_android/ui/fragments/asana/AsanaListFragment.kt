@@ -18,8 +18,8 @@ import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.databinding.FragmentAsanaListBinding
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.utils.DataState
+import com.aditya.fitfriend_android.viewmodels.AsanaStateEvent
 import com.aditya.fitfriend_android.viewmodels.AsanaViewModel
-import com.aditya.fitfriend_android.viewmodels.MainStateEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -33,14 +33,14 @@ class AsanaListFragment : Fragment() {
     private lateinit var binding: FragmentAsanaListBinding
     private lateinit var adapter: AsanasAdapter
     private val viewModel: AsanaViewModel by viewModels()
-    var snackbar: Snackbar? = null
+    private var snackbar: Snackbar? = null
     private val args: AsanaListFragmentArgs by navArgs()
     private val asanaCacheMapper = AsanaCacheMapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!args.isCached) {
-            viewModel.setStateEvent(MainStateEvent.GetAsanasEvent)
+            viewModel.setStateEvent(AsanaStateEvent.GetAsanasEvent)
         }
     }
 
@@ -62,7 +62,7 @@ class AsanaListFragment : Fragment() {
         if (!args.isCached) {
             subscribeToRemoteObservers()
         } else {
-            viewModel.setStateEvent(MainStateEvent.GetCachedAsanasEvent)
+            viewModel.setStateEvent(AsanaStateEvent.GetCachedAsanasEvent)
             subscribeToLocalObservers()
         }
     }
@@ -99,31 +99,36 @@ class AsanaListFragment : Fragment() {
 
                 is DataState.Error -> {
                     if (datastate.ex.message.equals("timeout")) {
-                        viewModel.setStateEvent(MainStateEvent.GetAsanasEvent)
+                        viewModel.setStateEvent(AsanaStateEvent.GetAsanasEvent)
+                        return@Observer
+                    }
+                    val exp = "Unable to resolve host \"fitfriend.onrender.com\": No address associated with hostname"
+                    if (datastate.ex.message.equals(exp)) {
+                        Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
                         return@Observer
                     }
                     showProgressBar(false)
                     showSnackBar(false)
                     Toast.makeText(requireContext(), "${datastate.ex.message}", Toast.LENGTH_SHORT)
                         .show()
-                    Log.w(TAG, "Exception while receiving data: ${datastate.ex}")
+                    Log.w(TAG, "Exception while receiving data: ${datastate.ex.message}")
                 }
             }
         })
     }
 
     private fun subscribeToLocalObservers() {
-        viewModel.cachedAsanaList.observe(viewLifecycleOwner, Observer {  cachedAsanas ->
+        viewModel.cachedAsanaList.observe(viewLifecycleOwner) { cachedAsanas ->
             val asanas: List<Asana> = asanaCacheMapper.mapFromEntityList(cachedAsanas)
             adapter.setData(asanas)
-        })
+        }
     }
 
     private fun showSnackBar(show: Boolean) {
         if (show) {
             Log.d(TAG, "Snackbar loading...")
             snackbar = Snackbar.make(
-                requireView(), "Please wait as it may take some time to load for the first time. We apologize for any inconvenience caused, as we are actively working on expanding our servers.", Snackbar.LENGTH_INDEFINITE
+                requireView(), "Apologies for the initial loading time. We're expanding our servers, please wait.", Snackbar.LENGTH_INDEFINITE
             )
             snackbar?.show()
         } else {
