@@ -27,7 +27,7 @@ class PermissionHandler {
      */
     fun requestPermissions(
         context: Activity,
-        permissions: List<String>,
+        permissions: Array<String>,
         launcher: ActivityResultLauncher<Array<String>>,
         message: String
     ) {

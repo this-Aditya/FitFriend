@@ -1,13 +1,20 @@
 package com.aditya.fitfriend_android.ui.landing_fragments
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
+import com.aditya.fitfriend_android.utils.PermissionHandler
 import com.aditya.fitfriend_android.utils.YogaDialogue
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -19,9 +26,36 @@ private const val TAG = "DashboardFragment"
  */
 class DashboardFragment : Fragment() {
 
+    private val permissionsLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            handlePermissionsResult(permissions)
+        }
+
+    private fun handlePermissionsResult(permissions: Map<String, Boolean>) {
+        for ((permission, isGranted) in permissions) {
+            when (isGranted) {
+                true -> Log.i(TAG, "Permission Granted: $permission")
+                false -> Log.i(TAG, "Permission denied: $permission")
+            }
+        }
+    }
+
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var permissioner: PermissionHandler
 
+    private val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(
+            Manifest.permission.ACTIVITY_RECOGNITION,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+    }
+    else if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+        arrayOf("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+    }
+    else {
+        arrayOf(Manifest.permission.ACTIVITY_RECOGNITION)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +64,7 @@ class DashboardFragment : Fragment() {
         Log.i(TAG, "onCreateView: DashboardFragment")
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
+        permissioner = PermissionHandler()
         return binding.root
     }
 
@@ -69,6 +104,28 @@ class DashboardFragment : Fragment() {
             YogaDialogue.showDialogueBox(
                 "meditations", requireContext(), requireView(), action0, action1)
         }
+
+        if (!allPermissionsApproved()){
+            requestPermissionss()
+        }
     }
+
+    private fun requestPermissionss() {
+        Log.i(TAG, "requestActivityRecognitionPermission: ")
+        val message =
+            "For the sleep Tracking these permissions are necessary, tap Yes to grant permissions."
+
+        permissioner.requestPermissions(
+            requireActivity(), permissions, permissionsLauncher,
+            message
+        )
+    }
+
+    private fun allPermissionsApproved(): Boolean {
+        return permissions.any { permission ->
+            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
 }
 
