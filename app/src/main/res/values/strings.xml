@@ -13,4 +13,9 @@
     <string name="info_fitfriend">FitFriend: Your ultimate Android wellness companion. Discover yoga, pranayama, and meditation techniques.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="introduction">Introduction:</string>
+    <string name="description_yoga">Lie on your back with your arms beside you, palms downwards.\nAs you inhale, use your abdominal muscles to lift your feet off the floor, raising your legs vertically at a 90-degree angle.\nContinue to breathe normally and supporting your hips and back with your hands, lift them off the ground.\nAllow your legs to sweep in a 180-degree angle over your head till your toes touch the floor. Your back should be perpendicular to the floor. This may be difficult initially, but make an attempt for a few seconds.\nHold this pose and let your body relax more and more with each steady breath.\nAfter about a minute (a few seconds for beginners) of resting in this pose, you may gently bring your legs down on exhalation.\n</string>
+    <string name="description">Description:</string>
+    <string name="benefits">Benefits:</string>
+    <string name="precautions">Precautions:</string>
 </resources>

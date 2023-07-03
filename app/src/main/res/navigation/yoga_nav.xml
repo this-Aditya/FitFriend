@@ -61,6 +61,10 @@
             app:destination="@id/asanasListFragment"
             app:popUpTo="@id/asanaFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="asana_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/meditationListFragment"

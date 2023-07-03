@@ -1,14 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.asana.AsanaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/iv_asana_d"
+            android:layout_width="300dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:text="Yoga"
+            android:textColor="#673AB7"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_asana_d" />
+
+        <Button
+            android:id="@+id/btn_video_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:text="VIDEO"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_asana_d" />
+
+        <TextView
+            android:id="@+id/tv_intro_heading_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="40dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="@string/introduction"
+            android:textColor="#673AB7"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/cl"
+            app:layout_constraintTop_toBottomOf="@+id/tv_asana_d" />
+
+        <ImageView
+            android:id="@+id/btn_intro_expand_asana_d"
+            android:layout_width="50dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_heading_asana_d"
+            app:layout_constraintEnd_toEndOf="@id/cl"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_heading_asana_d"
+            app:srcCompat="@drawable/arrow_down" />
+
+        <TextView
+            android:id="@+id/tv_intro_details_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text=" . "
+            android:textSize="18sp"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/cl"
+            app:layout_constraintTop_toBottomOf="@id/tv_intro_heading_asana_d" />
+
+
+        <TextView
+            android:id="@+id/tv_desc_heading_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="@string/description"
+            android:textColor="#673AB7"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/cl"
+            app:layout_constraintTop_toBottomOf="@+id/tv_intro_details_asana_d" />
+
+        <ImageView
+            android:id="@+id/btn_descr_expand_asana_d"
+            android:layout_width="50dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_desc_heading_asana_d"
+            app:layout_constraintEnd_toEndOf="@id/cl"
+            app:layout_constraintTop_toTopOf="@+id/tv_desc_heading_asana_d"
+            app:srcCompat="@drawable/arrow_down" />
+
+        <TextView
+            android:id="@+id/tv_descr_details_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="."
+            android:paddingRight="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/cl"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_heading_asana_d" />
+
+        <TextView
+            android:id="@+id/tv_benefits_heading_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="@string/benefits"
+            android:textColor="#673AB7"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/cl"
+            app:layout_constraintTop_toBottomOf="@+id/tv_descr_details_asana_d" />
+
+        <ImageView
+            android:id="@+id/btn_benefits_expand_asana_d"
+            android:layout_width="50dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_benefits_heading_asana_d"
+            app:layout_constraintEnd_toEndOf="@id/cl"
+            app:layout_constraintTop_toTopOf="@+id/tv_benefits_heading_asana_d"
+            app:srcCompat="@drawable/arrow_down" />
+
+        <TextView
+            android:id="@+id/tv_benefits_details_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="."
+            android:paddingRight="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/cl"
+            app:layout_constraintTop_toBottomOf="@id/tv_benefits_heading_asana_d" />
+
+        <TextView
+            android:id="@+id/tv_precautions_heading_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="@string/precautions"
+            android:textColor="#673AB7"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:paddingBottom="30dp"
+            app:layout_constraintStart_toStartOf="@id/cl"
+            app:layout_constraintTop_toBottomOf="@+id/tv_benefits_details_asana_d" />
+
+        <ImageView
+            android:id="@+id/btn_precautions_expand_asana_d"
+            android:layout_width="50dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_precautions_heading_asana_d"
+            app:layout_constraintEnd_toEndOf="@id/cl"
+            app:layout_constraintTop_toTopOf="@+id/tv_precautions_heading_asana_d"
+            app:srcCompat="@drawable/arrow_down" />
+
+        <TextView
+            android:id="@+id/tv_precautions_detail_asana_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
+            android:text="."
+            android:paddingRight="10dp"
+            android:textSize="18sp"
+            android:paddingBottom="30dp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/cl"
+            app:layout_constraintTop_toBottomOf="@id/tv_precautions_heading_asana_d" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAsana"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
