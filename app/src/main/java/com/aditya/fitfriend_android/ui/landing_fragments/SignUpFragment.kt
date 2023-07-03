@@ -34,10 +34,15 @@ class SignUpFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         resultActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(it.data).result
-            account?.let { signInAccount ->
-                googleAuthForFirebase(signInAccount)
+            try {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(it.data).result
+                account?.let { signInAccount ->
+                    googleAuthForFirebase(signInAccount)
+                }     
+            } catch (ex: Exception) {
+                Log.w(TAG, "${ex.message}", )
             }
+           
         }
     }
 
