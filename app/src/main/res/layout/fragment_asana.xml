@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    android:id="@+id/src_view"
     tools:context=".ui.fragments.asana.AsanaFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -227,6 +226,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#673AB7"
             android:clickable="true"
+            android:contentDescription="@string/add_or_delete_yoga"
             android:src="@drawable/add_yoga"
             app:layout_constraintTop_toTopOf="@id/btn_video_asana_d"
             app:layout_constraintBottom_toBottomOf="@id/btn_video_asana_d"
