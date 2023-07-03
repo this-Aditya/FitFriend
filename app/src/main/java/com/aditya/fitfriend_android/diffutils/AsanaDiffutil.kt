@@ -11,8 +11,7 @@ class AsanaDiffutil(val oldAsanas: List<Asana>,val newAsanas: List<Asana>) :
 
     override fun getNewListSize(): Int = newAsanas.size
 
-    // Here we are returning true But it won't be called, it will be overriden by
-    // implementing class
+  
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldAsanas[oldItemPosition] == newAsanas[newItemPosition]
 
