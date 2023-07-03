@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:backgroundTint="@color/app_base"
     android:layout_height="wrap_content"
     android:background="@color/white">
     <!--    android:background="@color/color_primary"-->
@@ -15,7 +16,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/app_base"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
