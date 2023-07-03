@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
-import com.aditya.fitfriend_android.data.mappers.AsanaCacheMapper
 import com.aditya.fitfriend_android.models.Asana
 import com.aditya.fitfriend_android.repository.YogaRepository
 import com.aditya.fitfriend_android.utils.DataState
@@ -32,25 +31,22 @@ class AsanaViewModel @Inject constructor(
         get() = _asanaDataState
 
     private val _cachedAsanaList: MutableLiveData<List<AsanaCacheEntity>> = MutableLiveData()
-        val cachedAsanaList: LiveData<List<AsanaCacheEntity>>
-            get() = _cachedAsanaList
+    val cachedAsanaList: LiveData<List<AsanaCacheEntity>>
+        get() = _cachedAsanaList
 
- private val _cachedAsana: MutableLiveData<AsanaCacheEntity> = MutableLiveData()
-        val cachedAsana: LiveData<AsanaCacheEntity>
-            get() = _cachedAsana
-
-    fun setStateEvent(mainStateEvent: MainStateEvent<Int, AsanaCacheEntity>) {
+    fun setStateEvent(asanaStateEvent: AsanaStateEvent<Int, AsanaCacheEntity>) {
         viewModelScope.launch {
-            when (mainStateEvent) {
-                is MainStateEvent.GetAsanasEvent -> {
+            when (asanaStateEvent) {
+                is AsanaStateEvent.GetAsanasEvent -> {
                     repository.getAsanasFromNetwork()
                         .onEach { asanas ->
                             _asanasDataState.value = asanas
                             Log.i(TAG, "Getting asanas from network")
                         }.launchIn(viewModelScope)
                 }
-                is MainStateEvent.GetAsanaEvent -> {
-                    val id = mainStateEvent.id
+
+                is AsanaStateEvent.GetAsanaEvent -> {
+                    val id = asanaStateEvent.id
                     viewModelScope.launch {
                         repository.getAsanabyId(id)
                             .onEach { asana ->
@@ -60,36 +56,45 @@ class AsanaViewModel @Inject constructor(
                     }
                 }
 
-                is MainStateEvent.AddAsanaToCacheEvent -> {
+                is AsanaStateEvent.AddAsanaToCacheEvent -> {
                     viewModelScope.launch {
-                        repository.addAsana(mainStateEvent.asana)
+                        repository.addAsana(asanaStateEvent.asana)
                         Log.i(TAG, "Added asana to database")
                     }
                 }
-                is MainStateEvent.DeleteCachedAsana -> {
-                    viewModelScope.launch { 
-                        repository.deleteAsana(mainStateEvent.asana)
+
+                is AsanaStateEvent.DeleteCachedAsana -> {
+                    viewModelScope.launch {
+                        repository.deleteAsana(asanaStateEvent.asana)
                         Log.i(TAG, "Delete asana")
                     }
                 }
-                MainStateEvent.GetCachedAsanasEvent -> {
-                   viewModelScope.launch {
-                       repository.getAsanas()
-                           .onEach {  cachedAsanas ->
-                               _cachedAsanaList.value = cachedAsanas
-                               Log.i(TAG, "retrived ${cachedAsanas.size} asanas from local storage.")
-                           }.launchIn(viewModelScope)
-                   }
+
+                AsanaStateEvent.GetCachedAsanasEvent -> {
+                    viewModelScope.launch {
+                        repository.getAsanas()
+                            .onEach { cachedAsanas ->
+                                _cachedAsanaList.value = cachedAsanas
+                                Log.i(
+                                    TAG,
+                                    "retrieved ${cachedAsanas.size} asanas from local storage."
+                                )
+                            }.launchIn(viewModelScope)
+                    }
                 }
             }
         }
     }
 }
 
-sealed class MainStateEvent<out T, out R>() {
-    object GetAsanasEvent : MainStateEvent<Nothing, Nothing>()
-    class GetAsanaEvent(val id: Int) : MainStateEvent<Int, Nothing>()
-    class AddAsanaToCacheEvent(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
-    class DeleteCachedAsana(val asana: AsanaCacheEntity) : MainStateEvent<Nothing, AsanaCacheEntity>()
-    object GetCachedAsanasEvent : MainStateEvent<Nothing, Nothing>()
+sealed class AsanaStateEvent<out T, out R> {
+    object GetAsanasEvent : AsanaStateEvent<Nothing, Nothing>()
+    class GetAsanaEvent(val id: Int) : AsanaStateEvent<Int, Nothing>()
+    class AddAsanaToCacheEvent(val asana: AsanaCacheEntity) :
+        AsanaStateEvent<Nothing, AsanaCacheEntity>()
+
+    class DeleteCachedAsana(val asana: AsanaCacheEntity) :
+        AsanaStateEvent<Nothing, AsanaCacheEntity>()
+
+    object GetCachedAsanasEvent : AsanaStateEvent<Nothing, Nothing>()
 }
