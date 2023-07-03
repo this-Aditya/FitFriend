@@ -86,6 +86,8 @@
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/meditationListFragment"
             app:popUpToInclusive="true" />
+        <argument android:name="is_cached_meditations"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/meditationFragment"
@@ -97,6 +99,13 @@
             app:destination="@id/meditationListFragment"
             app:popUpTo="@id/meditationFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="is_cached_meditation"
+            app:argType="boolean" />
+        <argument
+            android:name="meditation_id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/pranayamListFragment"
