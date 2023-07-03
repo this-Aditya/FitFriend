@@ -60,5 +60,15 @@ class DashboardFragment : Fragment() {
             YogaDialogue.showDialogueBox(
                 "pranayams", requireContext(), requireView(), action0, action1)
         }
+    // Transition to Meditation List Fragment
+        binding.ivMedUp.setOnClickListener {
+            val action0 =
+                DashboardFragmentDirections.actionDashboardFragmentToMeditationListFragment(false)
+            val action1 =
+                DashboardFragmentDirections.actionDashboardFragmentToMeditationListFragment(true)
+            YogaDialogue.showDialogueBox(
+                "pranayams", requireContext(), requireView(), action0, action1)
+        }
     }
 }
+
