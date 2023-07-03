@@ -1,15 +1,14 @@
 package com.aditya.fitfriend_android.ui.landing_fragments
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
+import com.aditya.fitfriend_android.utils.YogaDialogue
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
@@ -45,31 +44,21 @@ class DashboardFragment : Fragment() {
 
         // Transition to AsanaListFragment
         binding.ivAsanaUp.setOnClickListener {
-            showDialogueBox()
+            val action0 =
+                DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(false)
+            val action1 =
+                DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(true)
+            YogaDialogue.showDialogueBox("asanas", requireContext(), requireView(), action0, action1)
         }
-    }
 
-    private fun showDialogueBox() {
-        val options = arrayOf("All Asanas", "Favourites")
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Select Asanas")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> {
-                       val action = DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(false)
-                        view?.findNavController()?.navigate(action)
-                    }
-                    1 -> {
-                       val action = DashboardFragmentDirections.actionDashboardFragmentToAsanasListFragment(true)
-                        view?.findNavController()?.navigate(action)
-                    }
-                }
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-
-        val dialog = builder.create()
-        dialog.show()
+        // Transition to PranayamListFragment
+        binding.ivPranaUp.setOnClickListener {
+            val action0 =
+                DashboardFragmentDirections.actionDashboardFragmentToPranayamListFragment(false)
+            val action1 =
+                DashboardFragmentDirections.actionDashboardFragmentToPranayamListFragment(true)
+            YogaDialogue.showDialogueBox(
+                "pranayams", requireContext(), requireView(), action0, action1)
+        }
     }
 }

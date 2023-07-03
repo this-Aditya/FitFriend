@@ -10,7 +10,7 @@ import com.aditya.fitfriend_android.diffutils.PranayamDiffutil
 import com.aditya.fitfriend_android.models.Pranayam
 import com.squareup.picasso.Picasso
 
-class PranayamAdapter(context: Context, itemClicked: (Pranayam) -> Unit) : AbstractyogasAdapter<Pranayam>(
+class PranayamsAdapter(context: Context, itemClicked: (Pranayam) -> Unit) : AbstractyogasAdapter<Pranayam>(
     context, itemClicked) {
 
     override var yogas: List<Pranayam> = emptyList()

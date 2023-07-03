@@ -9,8 +9,6 @@ class PranayamDiffutil(val oldPranayams: List<Pranayam>, val newPranayams: List<
 
     override fun getNewListSize(): Int = newPranayams.size
 
-    // Here we are returning true But it won't be called, it will be overriden by
-    // implementing class
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldPranayams[oldItemPosition] == newPranayams[newItemPosition]
 
