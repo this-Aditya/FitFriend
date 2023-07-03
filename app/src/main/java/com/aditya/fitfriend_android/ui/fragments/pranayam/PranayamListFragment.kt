@@ -1,5 +1,6 @@
 package com.aditya.fitfriend_android.ui.fragments.pranayam
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -110,6 +111,7 @@ class PranayamListFragment : Fragment() {
                     val exp = "Unable to resolve host \"fitfriend.onrender.com\": No address associated with hostname"
                     if (datastate.ex.message.equals(exp)) {
                         Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+                        binding.progressBarPranayams.visibility = View.GONE
                         return@Observer
                     }
                     showProgressBar(false)
@@ -134,7 +136,7 @@ class PranayamListFragment : Fragment() {
             Log.d(TAG, "Snackbar loading...")
             snackbar = Snackbar.make(
                 requireView(),
-                "Please wait as it may take some time to load for the first time. We apologize for any inconvenience caused, as we are actively working on expanding our servers.",
+                "Apologies for the initial loading time. We're upgrading our servers, please wait.",
                 Snackbar.LENGTH_INDEFINITE
             )
             snackbar?.show()
