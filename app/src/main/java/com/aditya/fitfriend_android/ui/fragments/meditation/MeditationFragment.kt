@@ -150,6 +150,7 @@ class MeditationFragment : Fragment() {
                             "No internet connection",
                             Toast.LENGTH_SHORT
                         ).show()
+                        binding.progressBarmeditation.visibility = View.GONE
                         return@observe
                     }
                     showProgressBar(false)

@@ -67,7 +67,7 @@ class DashboardFragment : Fragment() {
             val action1 =
                 DashboardFragmentDirections.actionDashboardFragmentToMeditationListFragment(true)
             YogaDialogue.showDialogueBox(
-                "pranayams", requireContext(), requireView(), action0, action1)
+                "meditations", requireContext(), requireView(), action0, action1)
         }
     }
 }

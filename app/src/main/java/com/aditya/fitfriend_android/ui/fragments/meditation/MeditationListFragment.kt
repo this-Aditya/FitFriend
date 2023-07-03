@@ -114,6 +114,7 @@ class MeditationListFragment : Fragment() {
                             "No internet connection",
                             Toast.LENGTH_SHORT
                         ).show()
+                        binding.progressBarPranayams.visibility = View.GONE
                         return@observe
                     }
                     showProgressBar(false)
@@ -139,7 +140,7 @@ class MeditationListFragment : Fragment() {
             Log.d(TAG, "Snackbar loading...")
             snackbar = Snackbar.make(
                 requireView(),
-                "Apologies for the initial loading time. We're upgrading our servers capacity, please wait.",
+                "Apologies for the initial loading time. We're upgrading our servers, please wait.",
                 Snackbar.LENGTH_INDEFINITE
             )
             snackbar?.show()

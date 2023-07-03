@@ -105,6 +105,7 @@ class AsanaListFragment : Fragment() {
                     val exp = "Unable to resolve host \"fitfriend.onrender.com\": No address associated with hostname"
                     if (datastate.ex.message.equals(exp)) {
                         Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.GONE
                         return@Observer
                     }
                     showProgressBar(false)
@@ -128,7 +129,7 @@ class AsanaListFragment : Fragment() {
         if (show) {
             Log.d(TAG, "Snackbar loading...")
             snackbar = Snackbar.make(
-                requireView(), "Apologies for the initial loading time. We're expanding our servers, please wait.", Snackbar.LENGTH_INDEFINITE
+                requireView(), "Apologies for the initial loading time. We're upgrading our servers, please wait.", Snackbar.LENGTH_INDEFINITE
             )
             snackbar?.show()
         } else {

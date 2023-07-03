@@ -143,6 +143,7 @@ class PranayamFragment : Fragment() {
                     val exp = "Unable to resolve host \"fitfriend.onrender.com\": No address associated with hostname"
                     if (datastate.ex.message.equals(exp)) {
                         Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+                        binding.progressBarpranayam.visibility = View.GONE
                         return@observe
                     }
                     showProgressBar(false)
