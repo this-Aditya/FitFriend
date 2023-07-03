@@ -111,6 +111,8 @@
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/pranayamListFragment"
             app:popUpToInclusive="true" />
+        <argument android:name="is_cached_pranayams"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/pranayamFragment"
@@ -120,8 +122,14 @@
         <action
             android:id="@+id/action_pranayamFragment_to_pranayamListFragment"
             app:destination="@id/pranayamListFragment"
-            app:popUpTo="@id/pranayamFragment"
+            app:popUpTo="@id/pranayamListFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="pranayam_id"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument android:name="is_cached_pranayam"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/sleepFragment"
