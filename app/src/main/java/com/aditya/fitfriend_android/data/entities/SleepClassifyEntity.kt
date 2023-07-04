@@ -14,9 +14,11 @@ data class SleepClassifyEntity(
     @ColumnInfo("confidence")
     val confidence: Int
 ) {
-    fun from(sleepClassifyEvent: SleepClassifyEvent): SleepClassifyEntity =
-        SleepClassifyEntity(
-            sleepClassifyEvent.timestampMillis,
-            sleepClassifyEvent.confidence
-        )
+    companion object {
+        fun from(sleepClassifyEvent: SleepClassifyEvent): SleepClassifyEntity =
+            SleepClassifyEntity(
+                sleepClassifyEvent.timestampMillis,
+                sleepClassifyEvent.confidence
+            )
+    }
 }

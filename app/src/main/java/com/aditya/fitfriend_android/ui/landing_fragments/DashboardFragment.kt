@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.aditya.fitfriend_android.broadcast_receivers.AlarmReceiver
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
+import com.aditya.fitfriend_android.services.ActivityRecognitionService
 import com.aditya.fitfriend_android.time_picker.TimeTaker
 import com.aditya.fitfriend_android.utils.PermissionHandler
 import com.aditya.fitfriend_android.utils.YogaDialogue
@@ -41,10 +43,12 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var permissioner: PermissionHandler
-    private val schedulingOption = mutableListOf("Schedule Alarm")
-    private var schedulingTitle: String = "No Alarm Set"
+    private val schedulingOption = mutableListOf<String>()
+    private lateinit var schedulingTitle: String
     private lateinit var alarmPendingIntent: PendingIntent
     private lateinit var alarmManager: AlarmManager
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
 
     private val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -66,10 +70,20 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private fun handlePermissionsResult(permissions: Map<String, Boolean>) {
         for ((permission, isGranted) in permissions) {
             when (isGranted) {
-                true -> Log.i(TAG, "Permission Granted: $permission")
+                true -> {
+                    Log.i(TAG, "Permission Granted: $permission")
+                    startActivityRecognitionService()
+                }
                 false -> Log.i(TAG, "Permission denied: $permission")
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent(requireActivity(), AlarmReceiver::class.java)
+        alarmPendingIntent = PendingIntent.getBroadcast(requireContext(), ALARM_PI_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
+        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
     override fun onCreateView(
@@ -92,6 +106,17 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         binding.tvUserName.text = "Hi, $name"
         Picasso.get().load(imageUri).into(binding.userRealImg)
 
+        sharedPreferences = requireContext().getSharedPreferences("fit_friend_prefs", Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+        schedulingTitle = sharedPreferences.getString("schedulingTitle", "No Alarm Set") ?: "No Alarm Set"
+        schedulingOption.add(sharedPreferences.getString("schedulingOption","Schedule Alarm") ?: "Schedule Alarm")
+
+        if (!allPermissionsApproved()) {
+            requestPermissionss()
+        }
+        Log.i(TAG, "Before")
+        startActivityRecognitionService()
+        Log.i(TAG, "After ")
         // Transition to AsanaListFragment
         binding.ivAsanaUp.setOnClickListener {
             val action0 =
@@ -130,16 +155,18 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         binding.ivTimerUp.setOnClickListener {
             showTimePickingOptions(schedulingTitle)
         }
+    }
 
-        if (!allPermissionsApproved()) {
-            requestPermissionss()
-        }
+    private fun startActivityRecognitionService() {
+        Log.i(TAG, "startActivityRecognitionService: ")
+        val intent = Intent(requireContext(), ActivityRecognitionService::class.java)
+        ContextCompat.startForegroundService(requireContext(), intent)
     }
 
     private fun requestPermissionss() {
         Log.i(TAG, "requestActivityRecognitionPermission: ")
         val message =
-            "For the proper functioning these permissions are necessary, tap Yes to grant permissions."
+            "For the proper functioning activity_recognition and notification permissions are necessary. Tap yes to grant permissions."
 
         permissioner.requestPermissions(
             requireActivity(), permissions, permissionsLauncher,
@@ -148,7 +175,7 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     }
 
     private fun allPermissionsApproved(): Boolean {
-        return permissions.any { permission ->
+        return permissions.all { permission ->
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 permission
@@ -186,12 +213,12 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private fun setAlarm(cl: Calendar) {
         val time = DateFormat.getTimeInstance(DateFormat.SHORT).format(cl.time)
         schedulingTitle = "Alarm set for $time"
+        editor.putString("schedulingTitle", schedulingTitle)
         schedulingOption.removeAt(0)
         schedulingOption.add("Cancel Current Alarm")
+        editor.putString("schedulingOption", schedulingOption[0])
+        editor.apply()
         Log.d(TAG, "scheduling Options = $schedulingOption")
-        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(requireActivity(), AlarmReceiver::class.java)
-        alarmPendingIntent = PendingIntent.getBroadcast(requireContext(), ALARM_PI_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cl.timeInMillis, ALARM_INTERVAL_MILLIS, alarmPendingIntent)
         Toast.makeText(requireContext(), "Scheduled Time: $time", Toast.LENGTH_SHORT).show()
     }
@@ -199,8 +226,11 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private fun cancelAlarm() {
         alarmManager.cancel(alarmPendingIntent)
         schedulingTitle = "No Alarm Set"
+        editor.putString("schedulingTitle", schedulingTitle)
         schedulingOption.removeAt(0)
         schedulingOption.add("Schedule Alarm")
+        editor.putString("schedulingOption", schedulingOption[0])
+        editor.apply()
         Log.d(TAG, "scheduling Options = $schedulingOption")
         Toast.makeText(requireContext(), "Cancelled Schedule", Toast.LENGTH_SHORT).show()
     }
