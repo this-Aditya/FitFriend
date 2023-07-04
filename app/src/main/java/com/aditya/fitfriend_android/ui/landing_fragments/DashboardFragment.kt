@@ -22,6 +22,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import com.aditya.fitfriend_android.R
 import com.aditya.fitfriend_android.broadcast_receivers.AlarmReceiver
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
 import com.aditya.fitfriend_android.services.ActivityRecognitionService
@@ -61,6 +63,10 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     } else {
         arrayOf(Manifest.permission.ACTIVITY_RECOGNITION)
     }
+
+    private val activityPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        Manifest.permission.ACTIVITY_RECOGNITION }
+    else { "com.google.android.gms.permission.ACTIVITY_RECOGNITION" }
 
     private val permissionsLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -109,14 +115,13 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         sharedPreferences = requireContext().getSharedPreferences("fit_friend_prefs", Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
         schedulingTitle = sharedPreferences.getString("schedulingTitle", "No Alarm Set") ?: "No Alarm Set"
-        schedulingOption.add(sharedPreferences.getString("schedulingOption","Schedule Alarm") ?: "Schedule Alarm")
+        val option = sharedPreferences.getString("schedulingOption","Schedule Alarm") ?: "Schedule Alarm"
+        updateZerothPositionData(option)
 
         if (!allPermissionsApproved()) {
             requestPermissionss()
         }
-        Log.i(TAG, "Before")
         startActivityRecognitionService()
-        Log.i(TAG, "After ")
         // Transition to AsanaListFragment
         binding.ivAsanaUp.setOnClickListener {
             val action0 =
@@ -142,6 +147,7 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                 "pranayams", requireContext(), requireView(), action0, action1
             )
         }
+
         // Transition to Meditation List Fragment
         binding.ivMedUp.setOnClickListener {
             val action0 =
@@ -152,6 +158,18 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                 "meditations", requireContext(), requireView(), action0, action1
             )
         }
+
+        // Transition to Sleep fragment
+        // Only transition takes place when activity recognition permission is approved
+        binding.ivSleepUp.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), activityPermission) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Please approve the necessary permissions to track activity first.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            view.findNavController().navigate(R.id.action_dashboardFragment_to_sleepFragment)
+        }
+
+        // Scheduling info Transition
         binding.ivTimerUp.setOnClickListener {
             showTimePickingOptions(schedulingTitle)
         }
@@ -172,6 +190,15 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             requireActivity(), permissions, permissionsLauncher,
             message
         )
+    }
+
+    fun updateZerothPositionData(data: String) {
+        if (schedulingOption.isEmpty()) {
+            schedulingOption.add(data)
+        } else {
+            schedulingOption.clear()
+            schedulingOption.add(data)
+        }
     }
 
     private fun allPermissionsApproved(): Boolean {
@@ -214,8 +241,7 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         val time = DateFormat.getTimeInstance(DateFormat.SHORT).format(cl.time)
         schedulingTitle = "Alarm set for $time"
         editor.putString("schedulingTitle", schedulingTitle)
-        schedulingOption.removeAt(0)
-        schedulingOption.add("Cancel Current Alarm")
+        updateZerothPositionData("Cancel Current Alarm")
         editor.putString("schedulingOption", schedulingOption[0])
         editor.apply()
         Log.d(TAG, "scheduling Options = $schedulingOption")
@@ -227,8 +253,7 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         alarmManager.cancel(alarmPendingIntent)
         schedulingTitle = "No Alarm Set"
         editor.putString("schedulingTitle", schedulingTitle)
-        schedulingOption.removeAt(0)
-        schedulingOption.add("Schedule Alarm")
+        updateZerothPositionData("Schedule Alarm")
         editor.putString("schedulingOption", schedulingOption[0])
         editor.apply()
         Log.d(TAG, "scheduling Options = $schedulingOption")

@@ -41,6 +41,11 @@ class ActivityRecognitionService : Service() {
         startForeground(ACTIVITY_RECOGNITION_SERVICE_ID, notificationBuilder)
 
         registerForSleepUpdates()
+        setAlarmForClearingClassifyEvents()
+    }
+
+    private fun setAlarmForClearingClassifyEvents() {
+        TODO("Not yet implemented")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
