@@ -245,7 +245,7 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         editor.putString("schedulingOption", schedulingOption[0])
         editor.apply()
         Log.d(TAG, "scheduling Options = $schedulingOption")
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cl.timeInMillis, ALARM_INTERVAL_MILLIS, alarmPendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cl.timeInMillis, AlarmManager.INTERVAL_DAY, alarmPendingIntent)
         Toast.makeText(requireContext(), "Scheduled Time: $time", Toast.LENGTH_SHORT).show()
     }
 
@@ -262,8 +262,6 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
     companion object {
         private const val ALARM_PI_CODE = 674981
-        // One Day 86_400_000 milliseconds.
-        private const val ALARM_INTERVAL_MILLIS: Long = 24 * 60 * 60 * 1000
     }
 }
 

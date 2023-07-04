@@ -124,6 +124,10 @@ class FakeYogaRepository : YogaRepository{
         else emit(DataState.Success(listOf(Meditation(1,"m","m","m","m","m","m","m"))))
     }
 
+    override suspend fun deleteSleepClassifyEvents() {
+        // leave it for now
+    }
+
     override suspend fun getMeditationById(id: Int): Flow<DataState<Meditation>> = flow {
         if (_shouldReturnNetworkError) emit(DataState.Error(Exception("Some Exception")))
         else emit(DataState.Success(Meditation(1,"m","m","m","m","m","m","m")))

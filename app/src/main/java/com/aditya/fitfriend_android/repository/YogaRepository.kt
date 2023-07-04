@@ -30,6 +30,7 @@ interface YogaRepository {
     //Sleep Classify Events
     fun getClassifyEvents(): Flow<List<SleepClassifyEntity>>
     suspend fun insertClassifyEvents(classifyEntities: List<SleepClassifyEntity>)
+    suspend fun deleteSleepClassifyEvents()
 
     //Sleep Segment Events
     fun getSegmentEvents(): Flow<List<SleepSegmentEntity>>

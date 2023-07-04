@@ -1,7 +1,11 @@
 package com.aditya.fitfriend_android.services
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -12,8 +16,10 @@ import androidx.core.content.ContextCompat
 import com.aditya.fitfriend_android.FitFriendApplication
 import com.aditya.fitfriend_android.FitFriendApplication.Companion.CHANNEL_ID
 import com.aditya.fitfriend_android.R
+import com.aditya.fitfriend_android.broadcast_receivers.CleanupReceiver
 import com.google.android.gms.location.ActivityRecognition
 import com.google.android.gms.location.SleepSegmentRequest
+import java.util.Calendar
 
 private const val TAG = "ActivityRecognitionServ"
 
@@ -44,8 +50,20 @@ class ActivityRecognitionService : Service() {
         setAlarmForClearingClassifyEvents()
     }
 
+    /**
+     * Alarm manager that triggers every day at nearly 12:00 am to clear the cached data for
+     * SleepClassifyEvents as, more of classify data is making spark chart messy.
+     */
     private fun setAlarmForClearingClassifyEvents() {
-        TODO("Not yet implemented")
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, CleanupReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, CLEANUP_PI_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
+        val cl = Calendar.getInstance()
+        cl.timeInMillis = System.currentTimeMillis()
+        cl.set(Calendar.HOUR_OF_DAY, 0)
+        cl.set(Calendar.MINUTE, 0)
+        cl.set(Calendar.SECOND, 0)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cl.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -93,5 +111,6 @@ class ActivityRecognitionService : Service() {
 
     companion object {
         private const val ACTIVITY_RECOGNITION_SERVICE_ID = 547655
+        private const val CLEANUP_PI_CODE = 436981
     }
 }

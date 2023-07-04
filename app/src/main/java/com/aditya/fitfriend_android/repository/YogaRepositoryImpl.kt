@@ -68,6 +68,10 @@ private val pranayamAPI: PranayamAPI
     override fun getClassifyEvents(): Flow<List<SleepClassifyEntity>> =
         sleepClassifyDao.getClassifyEvents()
 
+    override suspend fun deleteSleepClassifyEvents() {
+        sleepClassifyDao.deleteClassifyEvents()
+    }
+
     override suspend fun insertClassifyEvents(classifyEntities: List<SleepClassifyEntity>) {
         sleepClassifyDao.insertClassifyEvents(classifyEntities)
     }
