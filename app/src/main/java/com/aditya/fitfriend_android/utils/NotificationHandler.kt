@@ -35,16 +35,16 @@ class NotificationHandler {
 
     companion object {
 
-        val pendingIntent: PendingIntent? = null
+        var pendingIntent: PendingIntent? = null
 
         fun createPendingIntent(context: Context) {
             if (pendingIntent != null) return
             val intent = Intent(context, MainActivity::class.java)
-            PendingIntent.getActivity(
+            pendingIntent = PendingIntent.getActivity(
                 context,
                 NOTIFICATION_PI_CODE,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 
