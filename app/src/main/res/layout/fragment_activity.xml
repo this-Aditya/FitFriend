@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.activity.ActivityFragment">
 
@@ -12,9 +13,11 @@
     android:layout_height="wrap_content"
     android:textSize="25sp"
     android:textColor="#673AB7"
+    android:background="@color/white"
     android:textStyle="bold"
     android:text="@string/activities_for_today"
-    android:layout_marginStart="10dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="15dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toTopOf="@+id/rv_activities"

@@ -5,35 +5,39 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.aditya.fitfriend_android.models.ActivityType
 import com.aditya.fitfriend_android.models.Transition
-import com.google.android.gms.location.ActivityTransition
-import com.google.android.gms.location.DetectedActivity
 
 @Entity("activity")
 data class ActivityEntity(
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo("id")
+    val id: Int,
+
     @ColumnInfo("time")
     val time: Long,
 
     @ColumnInfo("activity_name")
-    val activityName: ActivityType,
+    val activityType: Int,
 
     @ColumnInfo("transition")
-    val transition: Transition
+    val transition: Int
 ) {
     companion object {
         fun toActivityType(activity: Int): ActivityType = when(activity) {
-            DetectedActivity.STILL -> ActivityType.ACTIVITY_STILL
-            DetectedActivity.IN_VEHICLE -> ActivityType.IN_VEHICLE
-            DetectedActivity.ON_FOOT -> ActivityType.WALKING
-            DetectedActivity.RUNNING -> ActivityType.RUNNING
-            DetectedActivity.ON_BICYCLE -> ActivityType.IN_BICYCLE
+            0 -> ActivityType.IN_VEHICLE
+            1 -> ActivityType.IN_BICYCLE
+            2 -> ActivityType.ON_FOOT
+            3 -> ActivityType.ACTIVITY_STILL
+            4 -> ActivityType.UNKNOWN
+            5 -> ActivityType.TITLTING
+            7 -> ActivityType.WALKING
+            8 -> ActivityType.RUNNING
             else -> {ActivityType.UNKNOWN}
         }
 
         fun toTransitionType(transtion: Int): Transition = when(transtion) {
-            ActivityTransition.ACTIVITY_TRANSITION_ENTER -> Transition.STARTED
-            ActivityTransition.ACTIVITY_TRANSITION_EXIT -> Transition.STOPPED
+            0 -> Transition.STARTED
+            1 -> Transition.STOPPED
             else -> Transition.STOPPED
         }
     }

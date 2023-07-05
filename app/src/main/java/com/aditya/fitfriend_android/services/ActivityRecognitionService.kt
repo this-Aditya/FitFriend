@@ -82,7 +82,7 @@ class ActivityRecognitionService : Service() {
             stopSelf()
         }
 
-        return START_STICKY
+        return START_REDELIVER_INTENT
     }
 
     private fun registerForSleepUpdates() {

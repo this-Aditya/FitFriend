@@ -163,10 +163,19 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         // Only transition takes place when activity recognition permission is approved
         binding.ivSleepUp.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), activityPermission) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Please approve the necessary permissions to track activity first.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please approve the necessary permissions to track sleep first.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             view.findNavController().navigate(R.id.action_dashboardFragment_to_sleepFragment)
+        }
+
+        // Activity Detection Fragment transition
+        binding.ivActivityUp.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), activityPermission) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Please approve the necessary permissions to track activity first.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            requireView().findNavController().navigate(R.id.action_dashboardFragment_to_activityFragment)
         }
 
         // Scheduling info Transition
