@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import kotlin.math.log
 
 private const val TAG = "SleepViewModel"
 
@@ -32,13 +33,14 @@ class SleepViewModel @Inject constructor (val repository: YogaRepository) : View
             SleepStateEvent.SegmentEvent -> {
                 repository.getSegmentEvents().onEach {  segments ->
                     _sleepSegmentEvents.value = segments
-                    Log.d(TAG, "Sleep segment events retrived form database")
+                    Log.d(TAG, "Sleep segment events retrieved form database")
                 }.launchIn(viewModelScope)
             }
             SleepStateEvent.ClassifyEvent -> {
                 repository.getClassifyEvents().onEach {  classifydata ->
                     _sleepClassifyEvents.value = classifydata
-                    Log.d(TAG, "Sleep classify events retrived from database")
+                    Log.d(TAG, "Sleep classify events retrieved from database")
+                    Log.w(TAG, "Classifies -> $classifydata", )
                 }.launchIn(viewModelScope)
             }
         }

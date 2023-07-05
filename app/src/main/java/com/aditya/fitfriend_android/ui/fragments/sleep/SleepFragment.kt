@@ -59,18 +59,30 @@ class SleepFragment : Fragment() {
     private fun subscribeToLocalDataObservers() {
         viewmodel.sleepSegmentEvents.observe(viewLifecycleOwner) { segments ->
             Log.i(TAG, "Observed data from SleepSegmentData ")
-            sleep.segment.addAll(segments)
-            adapter.sleep.segment.addAll(segments)
-            adapter.notifyDataSetChanged()
-            Log.w(TAG, "Segments -> ${segments}")
+            try {
+                sleep.segment.clear()
+                sleep.segment.addAll(segments)
+                adapter.sleep.segment.clear()
+                adapter.sleep.segment.addAll(segments)
+                adapter.notifyDataSetChanged()
+            } catch (ex: Exception) {
+                Log.w(TAG, "Exception while subscribing to sleep segments -> $ex", )
+            }
+
         }
         viewmodel.sleepClassifyEvents.observe(viewLifecycleOwner) { classifydata ->
             Log.i(TAG, "Observed data from SleepClassifyData")
-            sleep.classify.addAll(classifydata)
-            updateInfoForSleep(sleep)
-            adapter.sleep.classify.addAll(classifydata)
-            adapter.notifyDataSetChanged()
-            Log.w(TAG, "Classify -> ${adapter.sleep.classify}")
+            try {
+                sleep.classify.clear()
+                sleep.classify.addAll(classifydata)
+                updateInfoForSleep(sleep)
+                adapter.sleep.classify.clear()
+                adapter.sleep.classify.addAll(classifydata)
+                adapter.notifyDataSetChanged()
+            } catch (ex: Exception) {
+                Log.w(TAG, "Exception while subscribing to sleep classify data -> $ex", )
+            }
+
         }
     }
 
@@ -90,9 +102,9 @@ class SleepFragment : Fragment() {
                     }
                 }
             } catch (ex: NullPointerException) {
-                Log.i(TAG, "Null Pointer Exception: ${ex.message}")
+                Log.w(TAG, "Null Pointer Exception: ${ex.message}")
             } catch (ex: Exception) {
-                Log.i(TAG, "Exception: $ex")
+                Log.w(TAG, "Exception: $ex")
             }
         }
 
@@ -148,7 +160,7 @@ class SleepFragment : Fragment() {
                     binding.tvSleep.text = "Sleep Start Time and Segment Duration:"
                     binding.tvDate.text =
                         TimeTranformer.epochToDateTime(sleep.segment.last().startTime)
-                    binding.tvConfidence.text = "${TimeTranformer.convertMsToHMS(sleep.segment.last().duration)}"
+                    binding.tvConfidence.text = "Sleep Duration: ${TimeTranformer.convertMsToHMS(sleep.segment.last().duration)}"
                 } catch (ex: Exception) {
                     Log.d(TAG, "Exception: $ex")
                 }
