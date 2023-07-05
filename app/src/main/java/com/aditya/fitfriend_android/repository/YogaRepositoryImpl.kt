@@ -1,10 +1,12 @@
 package com.aditya.fitfriend_android.repository
 
+import com.aditya.fitfriend_android.data.dao.ActivityTransitionDao
 import com.aditya.fitfriend_android.data.dao.AsanaDao
 import com.aditya.fitfriend_android.data.dao.MeditationDao
 import com.aditya.fitfriend_android.data.dao.PranayamDao
 import com.aditya.fitfriend_android.data.dao.SleepClassifyDao
 import com.aditya.fitfriend_android.data.dao.SleepSegmentDao
+import com.aditya.fitfriend_android.data.entities.ActivityEntity
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import com.aditya.fitfriend_android.data.entities.MeditationCacheEntity
 import com.aditya.fitfriend_android.data.entities.PranayamCacheEntity
@@ -31,6 +33,7 @@ private val meditationDao: MeditationDao,
 private val pranayamDao: PranayamDao,
 private val sleepClassifyDao: SleepClassifyDao,
 private val sleepSegmentDao: SleepSegmentDao,
+private val activityTransitionDao: ActivityTransitionDao,
 private val asanaAPI: AsanaAPI,
 private val meditationAPI: MeditationAPI,
 private val pranayamAPI: PranayamAPI
@@ -140,5 +143,15 @@ private val pranayamAPI: PranayamAPI
         } catch (ex: Exception) {
             emit(DataState.Error(ex))
         }
+    }
+
+    override fun getActivities(): Flow<List<ActivityEntity>> = activityTransitionDao.getAllActivities()
+
+    override suspend fun insertActivities(activities: List<ActivityEntity>) {
+        activityTransitionDao.insertActivities(activities)
+    }
+
+    override suspend fun deleteActivities() {
+        activityTransitionDao.deleteAllActivities()
     }
 }

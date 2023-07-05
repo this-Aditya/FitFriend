@@ -1,5 +1,6 @@
 package com.aditya.fitfriend_android.repository
 
+import com.aditya.fitfriend_android.data.entities.ActivityEntity
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import com.aditya.fitfriend_android.data.entities.MeditationCacheEntity
 import com.aditya.fitfriend_android.data.entities.PranayamCacheEntity
@@ -35,6 +36,11 @@ interface YogaRepository {
     //Sleep Segment Events
     fun getSegmentEvents(): Flow<List<SleepSegmentEntity>>
     suspend fun insertSegmentEvents(segmentEvents: List<SleepSegmentEntity>)
+
+    // Activity Transition Events
+    fun getActivities(): Flow<List<ActivityEntity>>
+    suspend fun insertActivities(activities: List<ActivityEntity>)
+    suspend fun deleteActivities()
 
     // Network Calls // Asana
     suspend fun getAsanasFromNetwork(): Flow<DataState<List<Asana>>>

@@ -1,5 +1,6 @@
 package com.aditya.fitfriend_android.dependency_injection
 
+import com.aditya.fitfriend_android.data.dao.ActivityTransitionDao
 import com.aditya.fitfriend_android.data.dao.AsanaDao
 import com.aditya.fitfriend_android.data.dao.MeditationDao
 import com.aditya.fitfriend_android.data.dao.PranayamDao
@@ -28,6 +29,7 @@ object RepositoryModule {
         pranayamDao: PranayamDao,
         sleepClassifyDao: SleepClassifyDao,
         sleepSegmentDao: SleepSegmentDao,
+        activityTransitionDao: ActivityTransitionDao,
         asanaAPI: AsanaAPI,
         meditationAPI: MeditationAPI,
         pranayamAPI: PranayamAPI
@@ -37,6 +39,7 @@ object RepositoryModule {
         pranayamDao,
         sleepClassifyDao,
         sleepSegmentDao,
+        activityTransitionDao,
         asanaAPI,
         meditationAPI,
         pranayamAPI

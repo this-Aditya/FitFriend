@@ -1,6 +1,7 @@
 package com.aditya.fitfriend_android.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.aditya.fitfriend_android.data.entities.ActivityEntity
 import com.aditya.fitfriend_android.data.entities.AsanaCacheEntity
 import com.aditya.fitfriend_android.data.entities.MeditationCacheEntity
 import com.aditya.fitfriend_android.data.entities.PranayamCacheEntity
@@ -107,6 +108,19 @@ class FakeYogaRepository : YogaRepository{
     override suspend fun getAsanabyId(id: Int): Flow<DataState<Asana>> = flow {
         if (_shouldReturnNetworkError) emit(DataState.Error(Exception("Some Exception")))
         else emit(DataState.Success(Asana(1,"a","a","a","a","a","a","a")))
+    }
+
+    override fun getActivities(): Flow<List<ActivityEntity>> {
+        return flow { emit(emptyList()) }
+        // Later Implementation
+    }
+
+    override suspend fun insertActivities(activities: List<ActivityEntity>) {
+        // Later Implementation
+    }
+
+    override suspend fun deleteActivities() {
+        // Later Implementation
     }
 
     override suspend fun getPranayamsFromNetwork(): Flow<DataState<List<Pranayam>>> = flow {
