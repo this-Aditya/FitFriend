@@ -14,11 +14,11 @@
 # FitFriend 🌟
 <br><br>
 
-<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/70c322c2-9e3b-4091-a0d5-4db5e0367d22" width = "160px">
-<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/90676ab7-f111-4803-91fa-f37955786897" width = "160px">
-<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/fdfa7a87-3763-45be-8a35-c013c05b255f" width = "160px">
-<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/0eee5e78-8951-4102-a231-65242e052c20" width = "160px">
-<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/8e6a054b-2720-4173-a3b4-c830b11d3d77" width = "160px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/70c322c2-9e3b-4091-a0d5-4db5e0367d22" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/90676ab7-f111-4803-91fa-f37955786897" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/fdfa7a87-3763-45be-8a35-c013c05b255f" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/0eee5e78-8951-4102-a231-65242e052c20" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/8e6a054b-2720-4173-a3b4-c830b11d3d77" width = "200px">
 <br><br>
 
 #### FitFriend is a powerful wellness app with amazing Android device features. It incorporates authentication from Google Firebase and utilizes the Google Sleep API and Google Activity Recognition API to monitor sleep and activity data continuously. The app also integrates a robust and well-tested Spring Boot API, providing access to yogas, pranayams, and meditations.
