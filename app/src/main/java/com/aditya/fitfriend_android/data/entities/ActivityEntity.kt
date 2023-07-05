@@ -22,11 +22,11 @@ data class ActivityEntity(
 ) {
     companion object {
         fun toActivityType(activity: Int): ActivityType = when(activity) {
-            DetectedActivity.STILL -> ActivityType.STILL
-            DetectedActivity.IN_VEHICLE -> ActivityType.VEHICLE
+            DetectedActivity.STILL -> ActivityType.ACTIVITY_STILL
+            DetectedActivity.IN_VEHICLE -> ActivityType.IN_VEHICLE
             DetectedActivity.ON_FOOT -> ActivityType.WALKING
             DetectedActivity.RUNNING -> ActivityType.RUNNING
-            DetectedActivity.ON_BICYCLE -> ActivityType.BICYCLE
+            DetectedActivity.ON_BICYCLE -> ActivityType.IN_BICYCLE
             else -> {ActivityType.UNKNOWN}
         }
     }

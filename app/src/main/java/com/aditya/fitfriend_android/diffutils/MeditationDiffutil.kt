@@ -10,7 +10,7 @@ class MeditationDiffutil(private val oldMeditations: List<Meditation>, private v
     override fun getNewListSize(): Int = newMeditations.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldMeditations[oldItemPosition] == newMeditations[newItemPosition]
+        oldMeditations[oldItemPosition].id == newMeditations[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldMeditations[oldItemPosition] == newMeditations[newItemPosition]

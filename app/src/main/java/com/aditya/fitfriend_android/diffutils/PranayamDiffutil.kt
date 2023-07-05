@@ -10,7 +10,7 @@ class PranayamDiffutil(val oldPranayams: List<Pranayam>, val newPranayams: List<
     override fun getNewListSize(): Int = newPranayams.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldPranayams[oldItemPosition] == newPranayams[newItemPosition]
+        oldPranayams[oldItemPosition].id == newPranayams[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldPranayams[oldItemPosition] == newPranayams[newItemPosition]
