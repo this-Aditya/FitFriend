@@ -28,12 +28,16 @@ import com.aditya.fitfriend_android.broadcast_receivers.AlarmReceiver
 import com.aditya.fitfriend_android.databinding.FragmentDashboardBinding
 import com.aditya.fitfriend_android.services.ActivityRecognitionService
 import com.aditya.fitfriend_android.time_picker.TimeTaker
+import com.aditya.fitfriend_android.ui.MainActivity
 import com.aditya.fitfriend_android.utils.PermissionHandler
 import com.aditya.fitfriend_android.utils.YogaDialogue
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import java.text.DateFormat
 import java.util.Calendar
+
 
 private const val TAG = "DashboardFragment"
 
@@ -181,6 +185,18 @@ class DashboardFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         // Scheduling info Transition
         binding.ivTimerUp.setOnClickListener {
             showTimePickingOptions(schedulingTitle)
+        }
+
+        // Logout
+        binding.btnLogout.setOnClickListener {
+            auth.signOut()
+            GoogleSignIn.getClient(
+                requireContext(),
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+            ).signOut()
+            val logoutIntent = Intent(requireActivity(), MainActivity::class.java)
+            logoutIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(logoutIntent)
         }
     }
 
