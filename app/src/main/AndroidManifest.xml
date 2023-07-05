@@ -35,7 +35,10 @@
         <receiver android:name=".broadcast_receivers.SleepReceiver"
             android:exported="true"
             android:enabled="true" />
-        <receiver android:name=".broadcast_receivers.CleanupReceiver" />
+        <receiver android:name=".broadcast_receivers.ActivityReceiver"
+            android:enabled="true"
+            android:exported="true" />
+<!--        <receiver android:name=".broadcast_receivers.CleanupReceiver" />-->
     </application>
 
 </manifest>

@@ -60,7 +60,7 @@ class SleepReceiver : BroadcastReceiver() {
             val events = sleepSegmentEvents.map { SleepSegmentEntity.from(it) }
             repository.insertSegmentEvents(events)
             Log.i(TAG, "Inserted sleep segment data to database")
-            Log.d(TAG, "Segment events: $events")
+            Log.d(TAG, "segment Events: $events")
         }
     }
 }
