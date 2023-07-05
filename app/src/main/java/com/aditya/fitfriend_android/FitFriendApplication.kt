@@ -8,7 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.aditya.fitfriend_android.broadcast_receivers.ActivityReceiver
 import com.aditya.fitfriend_android.broadcast_receivers.SleepReceiver
+import com.aditya.fitfriend_android.utils.toPendingIntentFlag
 import dagger.hilt.android.HiltAndroidApp
 
 private const val TAG = "FitFriendApplication"
@@ -41,12 +43,19 @@ class FitFriendApplication : Application() {
                 context,
                 123,
                 intent,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_CANCEL_CURRENT.toPendingIntentFlag(true)
             )
         }
 
-        fun createActivityPendingIntent() {
-
+        fun createActivityPendingIntent(context: Context?): PendingIntent {
+            val intent = Intent(context, ActivityReceiver::class.java)
+            Log.i(TAG, "Activity pending intent created.")
+            return PendingIntent.getBroadcast(
+                context,
+                456,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
         }
     }
 }

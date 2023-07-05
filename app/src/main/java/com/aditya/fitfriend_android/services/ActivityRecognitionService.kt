@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
-import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -17,6 +15,7 @@ import com.aditya.fitfriend_android.FitFriendApplication
 import com.aditya.fitfriend_android.FitFriendApplication.Companion.CHANNEL_ID
 import com.aditya.fitfriend_android.R
 import com.aditya.fitfriend_android.broadcast_receivers.CleanupReceiver
+import com.aditya.fitfriend_android.utils.ActivityTransitionUtil
 import com.google.android.gms.location.ActivityRecognition
 import com.google.android.gms.location.SleepSegmentRequest
 import java.util.Calendar
@@ -30,14 +29,14 @@ private const val TAG = "ActivityRecognitionServ"
 class ActivityRecognitionService : Service() {
 
     private val activityPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        Manifest.permission.ACTIVITY_RECOGNITION }
-    else { "com.google.android.gms.permission.ACTIVITY_RECOGNITION" }
+        Manifest.permission.ACTIVITY_RECOGNITION
+    } else {
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
-        Log.i(TAG, "StartActivity Recogntition service 2")
-
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Sleep and Activity tracking")
             .setContentText("Your sleep and activity data is being monitored continuously.")
@@ -47,27 +46,39 @@ class ActivityRecognitionService : Service() {
         startForeground(ACTIVITY_RECOGNITION_SERVICE_ID, notificationBuilder)
 
         registerForSleepUpdates()
-        setAlarmForClearingClassifyEvents()
+        registerForActivityUpdates()
+//        setAlarmForClearingClassifyEvents()
     }
 
     /**
      * Alarm manager that triggers every day at nearly 12:00 am to clear the cached data for
-     * SleepClassifyEvents as, more of classify data is making spark chart messy.
+     * SleepClassifyEvents as, more of classify data is making spark chart messed up.
+     * NOTE: Currently disabling this service, will resume it soon.
      */
     private fun setAlarmForClearingClassifyEvents() {
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, CleanupReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, CLEANUP_PI_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, CLEANUP_PI_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
         val cl = Calendar.getInstance()
         cl.timeInMillis = System.currentTimeMillis()
         cl.set(Calendar.HOUR_OF_DAY, 0)
         cl.set(Calendar.MINUTE, 0)
         cl.set(Calendar.SECOND, 0)
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cl.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            cl.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (ContextCompat.checkSelfPermission(this, activityPermission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                activityPermission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             stopSelf()
         }
 
@@ -75,13 +86,12 @@ class ActivityRecognitionService : Service() {
     }
 
     private fun registerForSleepUpdates() {
-        val permission = if (Build.VERSION.SDK_INT >= 29) Manifest.permission.ACTIVITY_RECOGNITION
-        else "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+
         Log.i(TAG, "registerForSleepUpdates: .....")
-        if (ContextCompat.checkSelfPermission(this, permission) ==
+        if (ContextCompat.checkSelfPermission(this, activityPermission) ==
             PackageManager.PERMISSION_GRANTED
         ) {
-            Log.i(TAG, "ActivityRecognition permission approved. $permission")
+            Log.i(TAG, "ActivityRecognition permission approved. $activityPermission")
             ActivityRecognition.getClient(this)
                 .requestSleepSegmentUpdates(
                     FitFriendApplication.createSleepPendingIntent(
@@ -97,16 +107,62 @@ class ActivityRecognitionService : Service() {
         }
     }
 
+    private fun registerForActivityUpdates() {
+        if (ContextCompat.checkSelfPermission(this, activityPermission) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.i(TAG, "ActivityRecognition permission approved. $activityPermission")
+            ActivityRecognition.getClient(this)
+                .requestActivityTransitionUpdates(
+                    ActivityTransitionUtil.getActivityTransitionRequests(),
+                    FitFriendApplication.createActivityPendingIntent(this)
+                )
+                .addOnSuccessListener {
+                    Log.i(TAG, "Successfully registered for activity transition updates")
+                }
+                .addOnFailureListener {
+                    Log.i(TAG, "Exception while registering to activity Transition updates.")
+                }
+        }
+    }
+
+    private fun unregisterFromSleepUpdates() {
+        if (ContextCompat.checkSelfPermission(this, activityPermission) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityRecognition.getClient(this)
+                .removeSleepSegmentUpdates(FitFriendApplication.createSleepPendingIntent(this))
+                .addOnSuccessListener {
+                    Log.i(TAG, "Unsubscribed from receiving sleep updates.")
+                }
+                .addOnFailureListener {
+                    Log.i(TAG, "Exception while unsubscribing from sleep updates: $it")
+                }
+        }
+    }
+
+
+    private fun unregisterFromActivityRequests() {
+        if (ContextCompat.checkSelfPermission(this, activityPermission) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityRecognition.getClient(this)
+                .removeActivityTransitionUpdates(
+                    FitFriendApplication.createActivityPendingIntent(this)
+                )
+                .addOnSuccessListener {
+                    Log.i(TAG, "Unsubscribed from receiving activity updates.")
+                }
+                .addOnFailureListener {
+                    Log.i(TAG, "Exception while unsubscribing from activity updates: $it")
+                }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        ActivityRecognition.getClient(this)
-            .removeSleepSegmentUpdates(FitFriendApplication.createSleepPendingIntent(this))
-            .addOnSuccessListener {
-                Log.i(TAG, "Unsubscribed from receiving sleep updates.")
-            }
-            .addOnFailureListener {
-                Log.i(TAG, "Exception while unsubscribing from sleep updates: $it")
-            }
+        unregisterFromSleepUpdates()
+        unregisterFromActivityRequests()
     }
 
     companion object {

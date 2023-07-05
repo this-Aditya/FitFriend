@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.aditya.fitfriend_android.models.ActivityType
 import com.aditya.fitfriend_android.models.Transition
+import com.google.android.gms.location.ActivityTransition
 import com.google.android.gms.location.DetectedActivity
 
 @Entity("activity")
@@ -28,6 +29,12 @@ data class ActivityEntity(
             DetectedActivity.RUNNING -> ActivityType.RUNNING
             DetectedActivity.ON_BICYCLE -> ActivityType.IN_BICYCLE
             else -> {ActivityType.UNKNOWN}
+        }
+
+        fun toTransitionType(transtion: Int): Transition = when(transtion) {
+            ActivityTransition.ACTIVITY_TRANSITION_ENTER -> Transition.STARTED
+            ActivityTransition.ACTIVITY_TRANSITION_EXIT -> Transition.STOPPED
+            else -> Transition.STOPPED
         }
     }
 }

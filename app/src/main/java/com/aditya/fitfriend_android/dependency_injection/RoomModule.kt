@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.aditya.fitfriend_android.data.YogaDataBase
 import com.aditya.fitfriend_android.data.YogaDataBase.Companion.DATABASE_NAME
+import com.aditya.fitfriend_android.data.dao.ActivityTransitionDao
 import com.aditya.fitfriend_android.data.dao.AsanaDao
 import com.aditya.fitfriend_android.data.dao.MeditationDao
 import com.aditya.fitfriend_android.data.dao.PranayamDao
@@ -23,6 +24,7 @@ object RoomModule {
     @Singleton
     fun provideYogaDB(context: Application): YogaDataBase =
         Room.databaseBuilder(context, YogaDataBase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides
@@ -50,5 +52,9 @@ object RoomModule {
     fun provideSleepClassifyDao(dataBase: YogaDataBase): SleepClassifyDao =
         dataBase.sleepClassifyDao()
 
+    @Provides
+    @Singleton
+    fun provideActivityTransitiondao(dataBase: YogaDataBase): ActivityTransitionDao =
+        dataBase.activityTransitiondao()
 
 }
