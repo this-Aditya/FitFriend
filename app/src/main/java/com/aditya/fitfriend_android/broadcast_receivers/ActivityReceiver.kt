@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 private const val TAG = "ActivityReceiver"
 
@@ -29,15 +30,18 @@ class ActivityReceiver : BroadcastReceiver() {
                 val activities = mutableListOf<ActivityEntity>()
                 val result = ActivityTransitionResult.extractResult(intent)
                 result?.let {
+                    Log.i(TAG, "onReceive: ")
                     result.transitionEvents.forEach {
                         val time = System.currentTimeMillis()
-                        val activity = ActivityEntity.toActivityType(it.activityType)
-                        val transition = ActivityEntity.toTransitionType(it.transitionType)
-                        activities.add(ActivityEntity(time, activity, transition))
+                        activities.add(ActivityEntity(0, time, it.activityType, it.transitionType))
+                        Log.w(TAG, "Activity Received -> ${ActivityEntity.toActivityType(it.activityType)}, transition -> ${ActivityEntity.toTransitionType(it.transitionType)}", )
                     }
                     scope.launch {
                         repository.insertActivities(activities)
                         Log.i(TAG, "Inserted activity updates to database.")
+                        activities.forEach {
+                            Log.w(TAG, "Activity Received -> ${ActivityEntity.toActivityType(it.activityType)}, transition -> ${it.transition}}",)
+                        }
                     }
                 }
             }
