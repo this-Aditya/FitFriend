@@ -13,7 +13,7 @@ class AsanaDiffutil(val oldAsanas: List<Asana>,val newAsanas: List<Asana>) :
 
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldAsanas[oldItemPosition] == newAsanas[newItemPosition]
+        oldAsanas[oldItemPosition].id == newAsanas[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldAsanas[oldItemPosition] == newAsanas[newItemPosition]

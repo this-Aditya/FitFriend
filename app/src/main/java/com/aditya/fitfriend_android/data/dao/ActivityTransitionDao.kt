@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ActivityTransitionDao {
 
-    @Query("SELECT * FROM activity ORDER BY time")
+    @Query("SELECT * FROM activity ORDER BY time DESC")
     fun getAllActivities(): Flow<List<ActivityEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -14,5 +14,4 @@ interface SleepSegmentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSleepSegments(sleepSegments: List<SleepSegmentEntity>)
-
 }
