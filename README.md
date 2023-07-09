@@ -19,6 +19,12 @@
 <img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/fdfa7a87-3763-45be-8a35-c013c05b255f" width = "200px">
 <img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/0eee5e78-8951-4102-a231-65242e052c20" width = "200px">
 <img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/8e6a054b-2720-4173-a3b4-c830b11d3d77" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/bc65032b-8774-440a-8e67-d69257ddc721" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/a150ce1e-ee6a-4f8e-8e53-684d9f5677cd" width = "200px">
+<img src = "https://github.com/this-Aditya/FitFriend/assets/98681758/f243538d-bca0-4558-94d0-f8612f9fe6ff" width = "200px">
+
+
+
 <br><br>
 
 #### FitFriend is a powerful wellness app with amazing Android device features. It incorporates authentication from Google Firebase and utilizes the Google Sleep API and Google Activity Recognition API to monitor sleep and activity data continuously. The app also integrates a robust and well-tested Spring Boot API, providing access to yogas, pranayams, and meditations.
@@ -89,6 +95,175 @@ To use the FitFriend API from your Android application while running the API on 
 ## APK Availability
 
 The APK file for the FitFriend application can be found [**here**](https://github.com/this-Aditya/FitFriend/blob/main/data/app-debug.apk).
+
+# Package Structure:
+
+## Android 
+
+    com.aditya.fitfriend_android   # Root Package
+    
+    ├── abstracts    # Abstract class for adapters
+    │     └── AbstractYogaAdapter.kt
+    ├── adapters    # Recycler views 
+    │     ├── ActivityAdapter.kt
+    │     ├── AsanasAdapter.kt
+    │     ├── MeditationAdapter.kt
+    │     ├── PranayamsAdapter.kt
+    │     └── SleepSparkAdapter.kt
+    ├── broadcast_receivers     # Broadacast receivers, receiving broadcasts from sleep and activity data to alarms
+    │     ├── ActivityReceiver.kt
+    │     ├── AlarmReceiver.kt
+    │     ├── CleanupReceiver.kt
+    │     └── SleepReceiver.kt
+    ├── data
+    │     ├── dao      # Room Data Access Objects 
+    │     │     ├── ActivityTransitionDao.kt
+    │     │     ├── AsanaDao.kt
+    │     │     ├── MeditationDao.kt
+    │     │     ├── PranayamDao.kt
+    │     │     ├── SleepClassifyDao.kt
+    │     │     └── SleepSegmentDao.kt
+    │     ├── entities      # Entities for local cache
+    │     │     ├── ActivityEntity.kt
+    │     │     ├── AsanaCacheEntity.kt
+    │     │     ├── MeditationCacheEntity.kt
+    │     │     ├── PranayamCacheEntity.kt
+    │     │     ├── SleepClassifyEntity.kt
+    │     │     └── SleepSegmentEntity.kt
+    │     ├── mappers      # Entity mappers to map entities.
+    │     │     ├── AsanaCacheMapper.kt
+    │     │     ├── MeditationCacheMapper.kt
+    │     │     └── PranayamCacheMapper.kt
+    │     └── YogaDataBase.kt     # Room Database 
+    ├── dependency_injection      # Dagger HLIT dependency injection
+    │     ├── RepositoryModule.kt
+    │     ├── RetrofitModule.kt
+    │     └── RoomModule.kt
+    ├── diffutils      # Diffutils for Adapters 
+    │     ├── ActivityDiffutil.kt
+    │     ├── AsanaDiffutil.kt
+    │     ├── MeditationDiffutil.kt
+    │     └── PranayamDiffutil.kt
+    ├── FitFriendApplication.kt    # Base Application class 
+    ├── models    
+    │     ├── ActivityType.kt
+    │     ├── Asana.kt
+    │     ├── DataLog.kt
+    │     ├── Meditation.kt
+    │     ├── Pranayam.kt
+    │     ├── Sleep.kt
+    │     ├── SleepMetric.kt
+    │     ├── SleepStatus.kt
+    │     └── Transition.kt
+    ├── network      # Retrofit services to access data from the network 
+    │     ├── AsanaAPI.kt
+    │     ├── MeditationAPI.kt
+    │     └── PranayamAPI.kt
+    ├── repository    # Repository to handle network and local data management 
+    │     ├── YogaRepositoryImpl.kt
+    │     └── YogaRepository.kt
+    ├── services    # Foreground services to provide the sleep and activity updates seamlessly, even when app is closed
+    │     └── ActivityRecognitionService.kt
+    ├── time_picker    # Time picker to schedule yoga time 
+    │     └── TimeTaker.kt
+    ├── ui    # User Interface classes 
+    │     ├── fragments
+    │     │     ├── activity
+    │     │     │     └── ActivityFragment.kt
+    │     │     ├── asana
+    │     │     │     ├── AsanaFragment.kt
+    │     │     │     └── AsanaListFragment.kt
+    │     │     ├── meditation
+    │     │     │     ├── MeditationFragment.kt
+    │     │     │     └── MeditationListFragment.kt
+    │     │     ├── pranayam
+    │     │     │     ├── PranayamFragment.kt
+    │     │     │     └── PranayamListFragment.kt
+    │     │     └── sleep
+    │     │           └── SleepFragment.kt
+    │     ├── landing_fragments
+    │     │     ├── DashboardFragment.kt
+    │     │     └── SignUpFragment.kt
+    │     └── MainActivity.kt
+    ├── utils      # Utility classes for this application
+    │     ├── ActivityTransitionUtil.kt
+    │     ├── DataState.kt
+    │     ├── EntityMapper.kt
+    │     ├── NotificationHandler.kt
+    │     ├── PermissionHandler.kt
+    │     ├── PIFlags.kt
+    │     ├── TimeTranformer.kt
+    │     ├── Utils.kt
+    │     └── YogaDialogue.kt
+    └── viewmodels    # Viewmodels for the fragments.
+          ├── ActivityViewModel.kt
+          ├── AsanaViewModel.kt
+          ├── MeditationViewModel.kt
+          ├── PranayamViewModel.kt
+          └── SleepViewModel.kt
+
+## Android tests 
+
+    .
+    ├── data
+    │   └── dao
+    │       ├── AsanaDaoTest.kt
+    │       ├── MeditationDaoTest.kt
+    │       ├── PranayamDaoTest.kt
+    │       ├── SleepClassifyDaoTest.kt
+    │       └── SleepSegmentDaoTest.kt
+    ├── ExampleInstrumentedTest.kt
+    └── FlowUtilAndroidTest.kt
+
+## Unit tests 
+
+    .
+    ├── ExampleUnitTest.kt
+    └── repository
+        └── FakeYogaRepository.kt
+
+## FitFriend API:
+
+            com.health.fitfriend     # Root Pacakge 
+            ├── controller    # Controllers for API endpoints 
+            │   ├── AsanaController.kt
+            │   ├── MeditationController.kt
+            │   └── PranayamController.kt
+            ├── datasource    # DataSource containing the data for yogas 
+            │   ├── AsanaDataSource.kt
+            │   ├── impl
+            │   │   ├── AsanaDataSourceImpl.kt
+            │   │   ├── MeditationDataSourceImpl.kt
+            │   │   └── PranayamDataSourceImpl.kt
+            │   ├── MeditationDataSource.kt
+            │   └── PranayamDataSource.kt
+            ├── FitfriendApplication.kt
+            ├── model    # Entities for yogas 
+            │   ├── Asana.kt
+            │   ├── Meditation.kt
+            │   └── Pranayam.kt
+            └── service    # Service for providing data to controllers
+                ├── AsanaService.kt
+                ├── MeditationService.kt
+                └── PranayamService.kt
+                
+## Tests:
+                com.health.fitfriend # Root Packege 
+                
+                ├── controller # Tests for Controllers using MockMVC
+                │   ├── AsanaControllerTest.kt
+                │   ├── MeditationControllerTest.kt
+                │   └── PranayamControllerTest.kt
+                ├── datasource    # Tests for data sources for asanas, pranayamas, and meditations
+                │   └── impl
+                │       ├── AsanaDataSourceImplTest.kt
+                │       ├── MeditationDataSourceImplTest.kt
+                │       └── PranayamDataSourceImplTest.kt
+                ├── FitfriendApplicationTests.kt
+                └── service  # Tests for services for providing data to controllers 
+                    ├── AsanaServiceTest.kt
+                    ├── MeditationServiceTest.kt
+                    └── PranayamServiceTest.kt
 
 ## Common Errors and Solutions
 
